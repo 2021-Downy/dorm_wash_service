@@ -15,10 +15,12 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
+var errorMessage = "해당 ID는 사용하실 수 없습니다."
+
 class SignupActivity : AppCompatActivity() {
 
     //에뮬레이터로 실행시 ip주소
-    private val IP_ADDRESS = "192.168.0.16"
+    private val IP_ADDRESS = "192.168.0.17"
     private val TAG = "phptest"
 
     override fun onCreate(savedInstanceState: Bundle?) {

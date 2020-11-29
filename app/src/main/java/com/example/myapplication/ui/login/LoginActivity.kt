@@ -1,7 +1,10 @@
 package com.example.myapplication.ui.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -19,6 +23,19 @@ import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.SignupActivity
 import com.example.myapplication.UsageStatusActivity
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_signup.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
+import java.net.HttpURLConnection
+import java.net.URL
+var mJsonString =""
+var errorMessage = "ID 또는 패스워드가 잘못됐습니다."
 
 class LoginActivity : AppCompatActivity() {
 
@@ -51,21 +68,21 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
-
-            loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
-            setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
-        })
+//        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
+//            val loginResult = it ?: return@Observer
+//
+//            loading.visibility = View.GONE
+//            if (loginResult.error != null) {
+//                showLoginFailed(loginResult.error)
+//            }
+//            if (loginResult.success != null) {
+//                updateUiWithUser(loginResult.success)
+//            }
+//            setResult(Activity.RESULT_OK)
+//
+//            //Complete and destroy login activity once successful
+//            finish()
+//        })
 
         username.afterTextChanged {
             loginViewModel.loginDataChanged(
@@ -95,14 +112,121 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+
+                val ID : String = username.text.toString()
+                val pw : String = password.text.toString()
+
+                val task = readData()
+                task.execute("http://192.168.0.17/getjson.php",ID,pw)
+
+//                loginViewModel.login(username.text.toString(), password.text.toString())
             }
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    /*Read Data in mysql*/
+    private inner class readData : AsyncTask<String?, Void?, String?>() {
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result == null) {
+                loading.visibility = View.INVISIBLE
+                Toast.makeText(
+                        applicationContext,
+                        errorMessage,
+                        Toast.LENGTH_LONG
+                ).show()
+
+            } else {
+                mJsonString = result
+                val TAG_JSON = "webnautes"
+                val TAG_ID = "ID"
+                val TAG_PW = "pw"
+                val TAG_NAME = "name"
+                val TAG_DORM = "dorm_num"
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                    var all = ""
+                    for (i in 0 until jsonArray.length()) {
+                        val item: JSONObject = jsonArray.getJSONObject(i)
+                        val id: String = item.getString(TAG_ID)
+                        val pw: String = item.getString(TAG_PW)
+                        val name: String = item.getString(TAG_NAME)
+                        val dorm_num: String = item.getString(TAG_DORM)
+                        all+=id+pw+name+dorm_num+"\n"
+                        updateUiWithUser(name, pw)
+                    }
+                    mTextViewResult.setText(all)
+                } catch (e: JSONException) {
+                    //Log.d(LoginActivity.TAG, "showResult : ", e)
+                    loading.visibility = View.INVISIBLE
+                    Toast.makeText(
+                            applicationContext,
+                            errorMessage,
+                            Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val serverURL = params[0]
+            val ID = params[1]
+            val pw = params[2]
+            val postParameters: String = "ID=$ID&pw=$pw"
+
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                if (postParameters != null) {
+                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                }
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            }catch (e: Exception) {
+                //errorString = e.toString()
+                null
+            }
+        }
+    }
+
+    private fun updateUiWithUser(displayName: String, pw: String) {
         val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+        //val displayName = model.displayName
         // TODO : initiate successful logged in experience
         Toast.makeText(
                 applicationContext,
