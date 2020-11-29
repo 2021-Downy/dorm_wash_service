@@ -43,7 +43,7 @@ Through this project, we want to experience the development of open source softw
 
 <hr>
 
-## Contributing to HamoniKR PC Checker
+## Contributing to Us
 
 이 프로젝트에 기여하는 방법은 다음과 같습니다.
 
