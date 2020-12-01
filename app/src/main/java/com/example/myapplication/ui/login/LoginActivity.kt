@@ -24,6 +24,7 @@ import com.example.myapplication.R
 import com.example.myapplication.SignupActivity
 import com.example.myapplication.UsageStatusActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -50,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
         val loading = findViewById<ProgressBar>(R.id.loading)
+
+        button_signup.setOnClickListener{
+            val SignupActivity = Intent(this, SignupActivity::class.java)
+            startActivity(SignupActivity)
+        }
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -110,6 +116,8 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
+
+
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
 
@@ -148,17 +156,14 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
-                    var all = ""
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         val id: String = item.getString(TAG_ID)
                         val pw: String = item.getString(TAG_PW)
                         val name: String = item.getString(TAG_NAME)
                         val dorm_num: String = item.getString(TAG_DORM)
-                        all+=id+pw+name+dorm_num+"\n"
                         updateUiWithUser(name, pw)
                     }
-                    mTextViewResult.setText(all)
                 } catch (e: JSONException) {
                     //Log.d(LoginActivity.TAG, "showResult : ", e)
                     loading.visibility = View.INVISIBLE

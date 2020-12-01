@@ -1,13 +1,20 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.myapplication.ui.login.LoginActivity
+import com.example.myapplication.ui.login.mJsonString
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_signup.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -16,6 +23,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 var errorMessage = "해당 ID는 사용하실 수 없습니다."
+var duplicated=0
 
 class SignupActivity : AppCompatActivity() {
 
@@ -37,15 +45,94 @@ class SignupActivity : AppCompatActivity() {
             val phone: String = editTextPhone.text.toString()
             val dorm: String = spinner.selectedItem.toString()
 
+
             val task = InsertData()
             task.execute("http://$IP_ADDRESS/insertTest.php", name, email, password, phone, dorm)
 
-            Toast.makeText(applicationContext,"가입되었습니다.",Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "가입되었습니다.", Toast.LENGTH_LONG).show()
             val MainActivity = Intent(this, MainActivity::class.java)
             startActivity(MainActivity)
-        }
 
+        }
     }
+
+//    /*Read Data in mysql - 아이디 중복 확인*/
+//    private inner class readData : AsyncTask<String?, Void?, String?>() {
+//
+//        @SuppressLint("SetTextI18n")
+//        override fun onPostExecute(result: String?) {
+//
+//            super.onPostExecute(result)
+//
+//            if (result!=null) {
+//                mJsonString = result
+//                try {
+////                    val jsonObject = JSONObject(result).toString()
+//                    Toast.makeText(
+//                            applicationContext,
+//                            errorMessage,
+//                            Toast.LENGTH_LONG
+//                    ).show()
+//                    duplicated=1
+//                } catch (e: JSONException) {
+//                    duplicated=1
+//                }
+//            }
+//            else duplicated=0
+//        }
+//
+//        override fun doInBackground(vararg params: String?): String? {
+//            val serverURL = params[0]
+//            val ID = params[1]
+//            val postParameters: String = "ID=$ID"
+//
+//            return try {
+//                val url = URL(serverURL)
+//                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+//
+//                httpURLConnection.readTimeout = 5000
+//                httpURLConnection.connectTimeout = 5000
+//                httpURLConnection.requestMethod = "POST"
+//                httpURLConnection.connect()
+//
+//                val outputStream: OutputStream = httpURLConnection.outputStream
+//                if (postParameters != null) {
+//                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+//                }
+//                outputStream.flush()
+//                outputStream.close()
+//
+//                val responseStatusCode: Int = httpURLConnection.responseCode
+//
+//                val inputStream: InputStream
+//                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+//                    httpURLConnection.inputStream
+//                } else {
+//                    httpURLConnection.errorStream
+//                }
+//
+//
+//                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+//                val bufferedReader = BufferedReader(inputStreamReader)
+//
+//                val sb = StringBuilder()
+//                var line: String? = null
+//
+//                while (bufferedReader.readLine().also({ line = it }) != null) {
+//                    sb.append(line)
+//                }
+//
+//                bufferedReader.close();
+//
+//                return sb.toString();
+//
+//            }catch (e: Exception) {
+//                //errorString = e.toString()
+//                null
+//            }
+//        }
+//    }
+
 
     /*Insert Data in mysql*/
     private class InsertData : AsyncTask<String, Void, String>() {

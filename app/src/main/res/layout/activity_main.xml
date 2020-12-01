@@ -6,25 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button_login"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="152dp"
-        android:text="로그인"
-        tools:layout_editor_absoluteX="189dp"
-        tools:layout_editor_absoluteY="63dp" />
-
-    <Button
-        android:id="@+id/button_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="241dp"
-        android:text="회원가입"
-        tools:layout_editor_absoluteX="52dp"
-        tools:layout_editor_absoluteY="63dp" />
+        android:layout_marginTop="179dp"
+        android:text="첫 화면" />
 </RelativeLayout>
