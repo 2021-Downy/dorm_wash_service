@@ -8,12 +8,10 @@
     $android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
     
     if( (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit'])) || $android ){
-	$ID    = $_POST['ID'];
-	$pw    = $_POST['pw'];
+	$dorm_num    = $_POST['dorm_num'];
 	
-    $stmt = $con->prepare('select * from USER where ID=:ID and pw=:pw');
-    $stmt->bindParam(':ID', $ID);
-    $stmt->bindParam(':pw', $pw);
+    $stmt = $con->prepare('select * from WashingMachine where dorm_num=:dorm_num');
+    $stmt->bindParam(':dorm_num', $dorm_num);
     $stmt->execute();
     }
 
@@ -26,12 +24,10 @@
             extract($row);
     
             array_push($data, 
-                array('ID'=>$ID,
-                'pw'=>$pw,
-                'name'=>$name,
-                'dorm_num'=>$dorm_num,
-                'phone_num'=>$phone_num,
-                'using_num'=>$using_num
+                array('WM_num'=>$WM_num,
+                'position_row'=>$position_row,
+                'position_column'=>$position_column,
+                'running'=>$running
             ));
         }
 
