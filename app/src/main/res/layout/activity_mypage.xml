@@ -75,4 +75,16 @@
         android:text="수정하기"
         tools:layout_editor_absoluteX="242dp"
         tools:layout_editor_absoluteY="549dp" />
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="175dp"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="84dp"
+        android:text="00분." />
 </RelativeLayout>

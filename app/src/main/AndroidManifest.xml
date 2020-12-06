@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MypageActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".MypageActivity" />
         <activity
             android:name=".UsageStatusActivity"
             android:label="@string/title_activity_usage_status"
