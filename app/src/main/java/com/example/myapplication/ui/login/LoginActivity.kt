@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.login
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.lifecycle.Observer
@@ -12,7 +10,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -24,8 +21,6 @@ import com.example.myapplication.R
 import com.example.myapplication.SignupActivity
 import com.example.myapplication.UsageStatusActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -49,10 +44,10 @@ class LoginActivity : AppCompatActivity() {
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
+        val login = findViewById<Button>(R.id.btn_login)
         val loading = findViewById<ProgressBar>(R.id.loading)
 
-        button_signup.setOnClickListener{
+        btn_signup.setOnClickListener{
             val SignupActivity = Intent(this, SignupActivity::class.java)
             startActivity(SignupActivity)
         }

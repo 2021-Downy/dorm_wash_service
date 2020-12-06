@@ -1,20 +1,12 @@
 package com.example.myapplication
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.myapplication.ui.login.LoginActivity
-import com.example.myapplication.ui.login.mJsonString
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_signup.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -35,10 +27,11 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+
         val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
         spinner.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
 
-        register.setOnClickListener {
+        btn_register.setOnClickListener {
             val name : String = signup_name.text.toString()
             val email: String = editTextTextEmailAddress.text.toString()
             val password : String = editTextTextPassword.text.toString()
