@@ -21,7 +21,6 @@ class SignupActivity : AppCompatActivity() {
 
     //에뮬레이터로 실행시 ip주소
     private val IP_ADDRESS = "192.168.0.17"
-    private val TAG = "phptest"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,88 +42,9 @@ class SignupActivity : AppCompatActivity() {
             task.execute("http://$IP_ADDRESS/insertTest.php", name, email, password, phone, dorm)
 
             Toast.makeText(applicationContext, "가입되었습니다.", Toast.LENGTH_LONG).show()
-            val MainActivity = Intent(this, MainActivity::class.java)
-            startActivity(MainActivity)
-
+            super.onBackPressed();
         }
     }
-
-//    /*Read Data in mysql - 아이디 중복 확인*/
-//    private inner class readData : AsyncTask<String?, Void?, String?>() {
-//
-//        @SuppressLint("SetTextI18n")
-//        override fun onPostExecute(result: String?) {
-//
-//            super.onPostExecute(result)
-//
-//            if (result!=null) {
-//                mJsonString = result
-//                try {
-////                    val jsonObject = JSONObject(result).toString()
-//                    Toast.makeText(
-//                            applicationContext,
-//                            errorMessage,
-//                            Toast.LENGTH_LONG
-//                    ).show()
-//                    duplicated=1
-//                } catch (e: JSONException) {
-//                    duplicated=1
-//                }
-//            }
-//            else duplicated=0
-//        }
-//
-//        override fun doInBackground(vararg params: String?): String? {
-//            val serverURL = params[0]
-//            val ID = params[1]
-//            val postParameters: String = "ID=$ID"
-//
-//            return try {
-//                val url = URL(serverURL)
-//                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
-//
-//                httpURLConnection.readTimeout = 5000
-//                httpURLConnection.connectTimeout = 5000
-//                httpURLConnection.requestMethod = "POST"
-//                httpURLConnection.connect()
-//
-//                val outputStream: OutputStream = httpURLConnection.outputStream
-//                if (postParameters != null) {
-//                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
-//                }
-//                outputStream.flush()
-//                outputStream.close()
-//
-//                val responseStatusCode: Int = httpURLConnection.responseCode
-//
-//                val inputStream: InputStream
-//                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-//                    httpURLConnection.inputStream
-//                } else {
-//                    httpURLConnection.errorStream
-//                }
-//
-//
-//                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
-//                val bufferedReader = BufferedReader(inputStreamReader)
-//
-//                val sb = StringBuilder()
-//                var line: String? = null
-//
-//                while (bufferedReader.readLine().also({ line = it }) != null) {
-//                    sb.append(line)
-//                }
-//
-//                bufferedReader.close();
-//
-//                return sb.toString();
-//
-//            }catch (e: Exception) {
-//                //errorString = e.toString()
-//                null
-//            }
-//        }
-//    }
 
 
     /*Insert Data in mysql*/

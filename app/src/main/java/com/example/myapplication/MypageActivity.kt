@@ -10,6 +10,7 @@ class MypageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage)
 
+        var user_num = intent.getStringExtra("user_num")
         var id = intent.getStringExtra("id")
         var pw = intent.getStringExtra("pw")
         var name = intent.getStringExtra("name")
