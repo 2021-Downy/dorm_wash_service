@@ -13,13 +13,15 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
         <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".MypageActivity" />
+        <activity android:name=".MypageActivity">
+        </activity>
         <activity
             android:name=".UsageStatusActivity"
             android:label="@string/title_activity_usage_status"
             android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity">
+            <!--원래 시작자리 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
