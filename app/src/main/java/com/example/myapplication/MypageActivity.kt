@@ -26,17 +26,18 @@ class MypageActivity : AppCompatActivity() {
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar, progress : Int, fromUser : Boolean) {
                 waveLoadongView.setProgressValue(progress);
+
                 if(progress < 90)
                 {
                     waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d%%",progress));
+                    waveLoadongView.setCenterTitle(String.format("%d분",(100-progress)/2));
                     waveLoadongView.setTopTitle("");
                     waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
                 }
                 else
                 {
                     waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d%%",progress));
+                    waveLoadongView.setCenterTitle(String.format("%d분",(100-progress)/2));
                     waveLoadongView.setTopTitle("");
                     waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
                 }
