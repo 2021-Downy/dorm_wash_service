@@ -72,11 +72,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="178dp"
         android:layout_marginLeft="178dp"
-        android:layout_marginTop="466dp"
-        android:layout_marginBottom="241dp" />
+        android:layout_marginTop="466dp"/>
 
     <Button
         android:id="@+id/btn_register"

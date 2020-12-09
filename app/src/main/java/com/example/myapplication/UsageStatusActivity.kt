@@ -62,7 +62,7 @@ class UsageStatusActivity : AppCompatActivity() {
             startActivity(MypageActivity)
         }
         val task = readData()
-        task.execute("http://192.168.0.17/getjson_readWM.php",dorm_num)
+        task.execute("http://morned270.dothome.co.kr/getjson_readWM.php",dorm_num)
 
     }
 
