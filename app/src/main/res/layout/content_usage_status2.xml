@@ -4,153 +4,212 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D6D7D7"
     tools:context=".First2Fragment">
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="38dp"
-        android:layout_marginTop="100dp"
-        android:text="Button"/>
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="150dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 1" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM2"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="165dp"
-        android:layout_marginTop="100dp"
-        android:text="Button" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="150dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 2" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM3"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="296dp"
-        android:layout_marginLeft="296dp"
-        android:layout_marginTop="100dp"
-        android:text="Button" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="282dp"
+        android:layout_marginLeft="282dp"
+        android:layout_marginTop="150dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 3" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM4"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="200dp"
-        android:text="Button"  />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="292dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 4" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM5"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="200dp"
-        android:text="Button"  />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="292dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 5" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM6"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="200dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="292dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:text="Button" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 6" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM7"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="300dp"
-        android:text="Button"/>
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="434dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 7" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM8"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="300dp"
-        android:text="Button" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="434dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 8" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM9"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="300dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="434dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:text="Button" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 9" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM10"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="400dp"
-        android:text="Button"/>
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="576dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 10" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM11"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="400dp"
-        android:text="Button" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="576dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:scaleType="fitCenter"
+        android:text="location 11" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/WM12"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="400dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="576dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:text="Button" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_wm_empty"
+        android:gravity="center_horizontal|top"
+        android:text="location 12" />
+
+
 </RelativeLayout>

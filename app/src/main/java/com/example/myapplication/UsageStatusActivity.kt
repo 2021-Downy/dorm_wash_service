@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -70,6 +71,7 @@ class UsageStatusActivity : AppCompatActivity() {
         for (i in buttonList){
 
             //빈 세탁기 이미지 삽입
+            i.setBackgroundResource(R.drawable.img_wm_empty)
 
             i.setOnClickListener{
                 WM_num = i.getText().toString()
@@ -82,6 +84,10 @@ class UsageStatusActivity : AppCompatActivity() {
 
         for (i in usingList){
             //사용중인 세탁기 이미지 삽입
+            /* 코드 보충 필요 : if (내가쓰는 세탁기) */
+                //i.setBackgroundResource(R.drawable.img_wm_myuse)
+            /* 코드 보충 필요 : else (남이 쓰는 세탁기 세탁기) */
+            i.setBackgroundResource(R.drawable.img_wm_otheruse)
         }
     }
 
