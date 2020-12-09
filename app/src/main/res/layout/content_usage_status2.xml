@@ -211,5 +211,24 @@
         android:gravity="center_horizontal|top"
         android:text="location 12" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="209dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginRight="177dp"
+        android:layout_marginBottom="596dp"
+        android:text="세탁기 현황"
+        android:textSize="30sp" />
+
 
 </RelativeLayout>
