@@ -20,7 +20,7 @@ var duplicated=0
 class SignupActivity : AppCompatActivity() {
 
     //에뮬레이터로 실행시 ip주소
-    private val IP_ADDRESS = "192.168.0.17"
+    private val IP_ADDRESS = "morned270.dothome.co.kr"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

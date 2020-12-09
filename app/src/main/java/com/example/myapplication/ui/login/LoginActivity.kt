@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.login
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.lifecycle.Observer
@@ -10,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -21,6 +24,8 @@ import com.example.myapplication.R
 import com.example.myapplication.SignupActivity
 import com.example.myapplication.UsageStatusActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -53,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-                .get(LoginViewModel::class.java)
+            .get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -87,16 +92,16 @@ class LoginActivity : AppCompatActivity() {
 
         username.afterTextChanged {
             loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
+                username.text.toString(),
+                password.text.toString()
             )
         }
 
         password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                        username.text.toString(),
-                        password.text.toString()
+                    username.text.toString(),
+                    password.text.toString()
                 )
             }
 
@@ -104,8 +109,8 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                                username.text.toString(),
-                                password.text.toString()
+                            username.text.toString(),
+                            password.text.toString()
                         )
                 }
                 false
@@ -120,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
                 val pw : String = password.text.toString()
 
                 val task = readData()
-                task.execute("http://192.168.0.17/getjson.php",ID,pw)
+                task.execute("http://morned270.dothome.co.kr/getjson.php",ID,pw)
 
 //                loginViewModel.login(username.text.toString(), password.text.toString())
             }
@@ -136,14 +141,15 @@ class LoginActivity : AppCompatActivity() {
             if (result == null) {
                 loading.visibility = View.INVISIBLE
                 Toast.makeText(
-                        applicationContext,
-                        errorMessage,
-                        Toast.LENGTH_LONG
+                    applicationContext,
+                    errorMessage,
+                    Toast.LENGTH_LONG
                 ).show()
 
             } else {
                 mJsonString = result
                 val TAG_JSON = "webnautes"
+                val TAG_NUM = "user_num"
                 val TAG_ID = "ID"
                 val TAG_PW = "pw"
                 val TAG_NAME = "name"
@@ -155,21 +161,22 @@ class LoginActivity : AppCompatActivity() {
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
+                        val user_num: String = item.getString(TAG_NUM)
                         val id: String = item.getString(TAG_ID)
                         val pw: String = item.getString(TAG_PW)
                         val name: String = item.getString(TAG_NAME)
                         val dorm_num: String = item.getString(TAG_DORM)
                         val phone_num: String = item.getString(TAG_PHONE)
                         val using_num: String = item.getString(TAG_USING)
-                        updateUiWithUser(id, pw, name, dorm_num, phone_num, using_num)
+                        updateUiWithUser(user_num, id, pw, name, dorm_num, phone_num, using_num)
                     }
                 } catch (e: JSONException) {
                     //Log.d(LoginActivity.TAG, "showResult : ", e)
                     loading.visibility = View.INVISIBLE
                     Toast.makeText(
-                            applicationContext,
-                            errorMessage,
-                            Toast.LENGTH_LONG
+                        applicationContext,
+                        errorMessage,
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }
@@ -228,19 +235,20 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun updateUiWithUser(id: String, pw: String, displayName: String, dorm_num: String, phone_num: String, using_num: String) {
+    fun updateUiWithUser(user_num: String, id: String, pw: String, displayName: String, dorm_num: String, phone_num: String, using_num: String) {
 
         val welcome = getString(R.string.welcome)
         //val displayName = model.displayName
         // TODO : initiate successful logged in experience
         Toast.makeText(
-                applicationContext,
-                "$welcome $displayName",
-                Toast.LENGTH_LONG
+            applicationContext,
+            "$welcome $displayName",
+            Toast.LENGTH_LONG
         ).show()
 
         //사용현황 띄우기
         val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
+        UsageStatusActivity.putExtra("user_num", user_num)
         UsageStatusActivity.putExtra("id", id)
         UsageStatusActivity.putExtra("pw", pw)
         UsageStatusActivity.putExtra("name", displayName)
