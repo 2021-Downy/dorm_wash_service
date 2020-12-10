@@ -112,4 +112,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="example_name">최은정</string>
 </resources>

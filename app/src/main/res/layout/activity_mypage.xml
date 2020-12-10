@@ -42,22 +42,8 @@
         android:max="100" />
 
     <TextView
-        android:id="@+id/mypage_dorm"
-        android:layout_width="212dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="454dp"
-        android:text="기숙사 : "
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="499dp" />
-
-    <TextView
         android:id="@+id/mypage_name"
-        android:layout_width="210dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -67,15 +53,34 @@
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
         android:layout_marginTop="335dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginRight="145dp"
-        android:text="이름 : "
+        android:layout_marginEnd="302dp"
+        android:layout_marginRight="320dp"
+        android:text="이름 :"
         tools:layout_editor_absoluteX="172dp"
         tools:layout_editor_absoluteY="375dp" />
 
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="323dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="최은정"/>
+
     <TextView
         android:id="@+id/mypage_id"
-        android:layout_width="213dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -85,11 +90,28 @@
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
         android:layout_marginTop="376dp"
-        android:layout_marginEnd="142dp"
-        android:layout_marginRight="142dp"
-        android:text="아이디 : "
+        android:layout_marginEnd="302dp"
+        android:layout_marginRight="302dp"
+        android:text="아이디 :"
         tools:layout_editor_absoluteX="162dp"
         tools:layout_editor_absoluteY="411dp" />
+
+    <EditText
+        android:id="@+id/editTextId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10"
+        android:text="morned270"/>
 
     <TextView
         android:id="@+id/mypage_phone"
@@ -103,11 +125,63 @@
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
         android:layout_marginTop="416dp"
-        android:layout_marginEnd="144dp"
+        android:layout_marginEnd="302dp"
         android:layout_marginRight="144dp"
         android:text="연락처 : "
         tools:layout_editor_absoluteX="159dp"
         tools:layout_editor_absoluteY="457dp" />
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="402dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10"
+        android:text="010 -4921-7846"/>
+
+    <TextView
+        android:id="@+id/mypage_dorm"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="454dp"
+        android:layout_marginEnd="302dp"
+        android:layout_marginRight="300dp"
+        android:text="기숙사 : "
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="499dp" />
+
+    <EditText
+        android:id="@+id/editTextDorm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="442dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10"
+        android:text="개성재"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -121,7 +195,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="19dp"
-        android:layout_marginEnd="245dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginRight="245dp"
         android:text="마이페이지"
         android:textColor="@color/indigo"
@@ -271,4 +345,6 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:layout_marginBottom="54dp"></com.github.mikephil.charting.charts.PieChart>
+
+
 </RelativeLayout>
