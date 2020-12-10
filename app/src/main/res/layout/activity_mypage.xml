@@ -4,75 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DEEBF7"
     tools:context=".MypageActivity">
 
-    <me.itangqi.waveloadingview.WaveLoadingView
-        android:id="@+id/waveLoadongView"
+    <Button
+        android:id="@+id/button_modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/seekbar"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginStart="299dp"
+        android:layout_marginLeft="299dp"
+        android:layout_marginTop="438dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:text="수정"
+        tools:layout_editor_absoluteX="242dp"
+        tools:layout_editor_absoluteY="549dp" />
 
-        android:layout_centerInParent="true"
-        android:layout_marginStart="101dp"
-        android:layout_marginLeft="101dp"
-        android:layout_marginTop="13dp"
-
-        android:layout_marginEnd="108dp"
-        android:layout_marginRight="108dp"
-        app:wlv_borderColor="@color/indigo"
-
-        app:wlv_borderWidth="3dp"
-
-        app:wlv_round_rectangle="true"
-        app:wlv_shapeType="circle"
-        app:wlv_titleCenterColor="@color/white"
-        app:wlv_titleCenterSize="30sp"
-
-        app:wlv_titleCenterStrokeColor="@color/deepindigo"
-        app:wlv_titleCenterStrokeWidth="3dp"
-        app:wlv_triangle_direction="north"
-        app:wlv_waveAmplitude="70"
-        app:wlv_waveColor="@color/lightblue" />
-
-    <TextView
-        android:id="@+id/mypage_id"
-        android:layout_width="213dp"
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="385dp"
-        android:layout_marginEnd="143dp"
-        android:layout_marginRight="143dp"
-        android:text="아이디 : "
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="411dp" />
-
-    <TextView
-        android:id="@+id/mypage_phone"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="435dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginRight="145dp"
-        android:text="연락처 : "
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="457dp" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:max="100" />
 
     <TextView
         android:id="@+id/mypage_dorm"
@@ -83,7 +50,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="485dp"
+        android:layout_marginTop="454dp"
         android:text="기숙사 : "
         tools:layout_editor_absoluteX="157dp"
         tools:layout_editor_absoluteY="499dp" />
@@ -106,39 +73,41 @@
         tools:layout_editor_absoluteX="172dp"
         tools:layout_editor_absoluteY="375dp" />
 
-    <SeekBar
-        android:id="@+id/seekbar"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/mypage_id"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:max="100" />
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="376dp"
+        android:layout_marginEnd="142dp"
+        android:layout_marginRight="142dp"
+        android:text="아이디 : "
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="411dp" />
 
-    <Button
-        android:id="@+id/button_modify"
-        android:layout_width="65dp"
-        android:layout_height="37dp"
+    <TextView
+        android:id="@+id/mypage_phone"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="291dp"
-        android:layout_marginLeft="291dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="53dp"
-        android:layout_marginRight="53dp"
-        android:text="수정"
-        tools:layout_editor_absoluteX="242dp"
-        tools:layout_editor_absoluteY="549dp" />
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="416dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
+        android:text="연락처 : "
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="457dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -155,6 +124,151 @@
         android:layout_marginEnd="245dp"
         android:layout_marginRight="245dp"
         android:text="마이페이지"
+        android:textColor="@color/indigo"
         android:textSize="30sp" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="517dp"
+        android:layout_marginEnd="215dp"
+        android:layout_marginRight="215dp"
+        android:text="사용자 리포트"
+        android:textColor="@color/indigo"
+        android:textSize="18sp" />
+
+    <Switch
+        android:id="@+id/switchlogview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="245dp"
+        android:layout_marginLeft="245dp"
+        android:layout_marginTop="519dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginRight="115dp"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        android:thumb="@drawable/switch_thumb_selector"
+        android:track="@drawable/switch_track_selector" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="521dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginRight="166dp"
+        android:text="요일"
+        android:textColor="@color/indigo"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="302dp"
+        android:layout_marginLeft="302dp"
+        android:layout_marginTop="521dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:text="시간"
+        android:textColor="@color/lightorange"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <me.itangqi.waveloadingview.WaveLoadingView
+        android:id="@+id/waveLoadongView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_centerInParent="true"
+        android:layout_marginStart="101dp"
+        android:layout_marginLeft="101dp"
+        android:layout_marginTop="13dp"
+
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+
+        android:clickable="false"
+
+        app:wlv_borderColor="@color/indigo"
+        app:wlv_borderWidth="5dp"
+        app:wlv_round_rectangle="true"
+        app:wlv_shapeType="circle"
+
+        app:wlv_titleCenterColor="@color/white"
+        app:wlv_titleCenterSize="30sp"
+        app:wlv_titleCenterStrokeColor="@color/deepindigo"
+        app:wlv_titleCenterStrokeWidth="3dp"
+        app:wlv_triangle_direction="north"
+        app:wlv_waveAmplitude="70"
+        app:wlv_waveColor="@color/lightblue"
+        app:wlv_wave_background_Color="@color/white" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="562dp"
+        android:layout_marginEnd="227dp"
+        android:layout_marginRight="227dp"
+        android:layout_marginBottom="52dp">
+    </com.github.mikephil.charting.charts.PieChart>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart2"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="560dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginBottom="54dp"></com.github.mikephil.charting.charts.PieChart>
 </RelativeLayout>

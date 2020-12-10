@@ -51,5 +51,6 @@ dependencies {
 
     //ADD library
     implementation 'me.itangqi.waveloadingview:library:0.3.5'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
