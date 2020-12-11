@@ -64,10 +64,10 @@ class MypageActivity : AppCompatActivity() {
         var phone_num = intent.getStringExtra("phone_num")
         var using_num = intent.getStringExtra("using_num")
 
-        mypage_name.text = "이름 : " + name
-        mypage_id.text = "ID : " + id
-        mypage_phone.text = "연락처 : " + phone_num
-        mypage_dorm.text = "기숙사 : " + dorm_num
+        editTextTextPersonName.setText(name)
+        editTextId.setText(id)
+        editTextPhone.setText(phone_num)
+        editTextDorm.setText(dorm_num)
 
         /*사용자 데이터 분석 그래프*/
 
