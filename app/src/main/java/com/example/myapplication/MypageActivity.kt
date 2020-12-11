@@ -69,6 +69,11 @@ class MypageActivity : AppCompatActivity() {
         editTextPhone.setText(phone_num)
         editTextDorm.setText(dorm_num)
 
+//        mypage_name.text = "이름 : " + name
+//        mypage_id.text = "ID : " + id
+//        mypage_phone.text = "연락처 : " + phone_num
+//        mypage_dorm.text = "기숙사 : " + dorm_num
+
         /*사용자 데이터 분석 그래프*/
 
         //요일 원형 그래프
