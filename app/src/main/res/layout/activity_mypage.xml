@@ -61,7 +61,7 @@
 
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -75,7 +75,6 @@
         android:layout_marginEnd="125dp"
         android:layout_marginRight="300dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="최은정"/>
 
     <TextView

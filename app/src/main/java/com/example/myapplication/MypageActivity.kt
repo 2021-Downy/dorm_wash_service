@@ -1,10 +1,14 @@
 package com.example.myapplication
 
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -12,11 +16,21 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.ColorTemplate.COLORFUL_COLORS
 import kotlinx.android.synthetic.main.activity_mypage.*
+import kotlinx.android.synthetic.main.activity_mypage.editTextPhone
+import kotlinx.android.synthetic.main.activity_signup.*
 import me.itangqi.waveloadingview.WaveLoadingView
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class MypageActivity : AppCompatActivity() {
 
+    //에뮬레이터로 실행시 ip주소
+    private val IP_ADDRESS = "morned270.dothome.co.kr"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,10 +78,11 @@ class MypageActivity : AppCompatActivity() {
         var phone_num = intent.getStringExtra("phone_num")
         var using_num = intent.getStringExtra("using_num")
 
-        editTextTextPersonName.setText(name)
-        editTextId.setText(id)
-        editTextPhone.setText(phone_num)
-        editTextDorm.setText(dorm_num)
+        /* 회원 정보 출력 */
+        editTextPersonName.setText(name);
+        editTextId.setText(id);
+        editTextPhone.setText(phone_num);
+        editTextDorm.setText(dorm_num);
 
 //        mypage_name.text = "이름 : " + name
 //        mypage_id.text = "ID : " + id
@@ -197,6 +212,88 @@ class MypageActivity : AppCompatActivity() {
         l2.orientation = Legend.LegendOrientation.VERTICAL
         l2.setDrawInside(false)
         l2.isEnabled = false
+
+        var btn_event = findViewById<Button>(R.id.button_modify)
+
+        /* 수정하기 버튼 클릭시 */
+        btn_event.setOnClickListener{
+            val name : String = editTextPersonName.text.toString()
+            val phone: String = editTextPhone.text.toString()
+            val dorm: String = editTextDorm.text.toString()
+            val email: String = editTextId.text.toString()
+
+
+            val task = MypageActivity.UpdateData()
+            task.execute("http://$IP_ADDRESS/updateTest.php", name, phone, dorm, email)
+
+            Toast.makeText(applicationContext, "정보 수정이 완료되었습니다.", Toast.LENGTH_LONG).show()
+            super.onBackPressed();
+        }
+
+    }
+
+    /*Insert Data in mysql*/
+    private class UpdateData : AsyncTask<String, Void, String>() {
+
+
+        override fun doInBackground(vararg params: String?): String {
+
+            val serverURL: String? = params[0]
+            val name: String? = params[1]
+            val phone: String? = params[2]
+            val dorm: String? = params[3]
+            val email: String? = params[4]
+
+            val postParameters: String = "name=$name&phone_num=$phone&dorm_num=$dorm&ID=$email"
+
+            try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            } catch (e: Exception) {
+                return "Error" + e.message
+            }
+
+        }
+
+
     }
 
     fun maketimecharts(val1List : Array<Int>, val2List : Array<Int> ) :Unit{
