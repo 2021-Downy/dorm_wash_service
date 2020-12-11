@@ -73,15 +73,15 @@ class MypageActivity : AppCompatActivity() {
 
         //요일 원형 그래프
         /*수정 필요 : 데이터 data_all, data_my 배열에 INT형으로 넣으면 됨! */
-        var Day_of_all = arrayOf(10, 20, 30, 40, 50, 50, 60)    //예시
-        var Day_of_my = arrayOf(500, 300, 750, 800, 400, 700, 200)  //예시
+        var Day_of_all = Array(7,{i ->(10..100).random()})    //예시
+        var Day_of_my = Array(7,{i ->(0..10).random()})  //예시
         makedaycharts(Day_of_all, Day_of_my)
 
 
         //시간 꺾은 선 그래프
         /*아직 미완 */
         var Time_of_all = Array(24,{i ->(0..50).random()})    //시간 x축 데이터
-        var Time_of_my = Array<Int>(24, {i->(0..10).random()})  // 사용자 수 y축 데이터 넣어야함 일단 0부터 20중 숫잘 랜덤값으로 초기화함
+        var Time_of_my = Array(24, {i->(0..10).random()})  // 사용자 수 y축 데이터 넣어야함 일단 0부터 20중 숫잘 랜덤값으로 초기화함
         maketimecharts(Time_of_all, Time_of_my)
 
         /*스위치 버튼 이벤트*/
