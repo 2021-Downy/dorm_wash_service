@@ -14,4 +14,12 @@
     <color name="lightblue">#8ECAE6</color>
     <color name="lightorange">#FFB703</color>
     <color name="deeporange">#FB8500</color>
+
+    <color name="Reinbow_1">#FF9AA2</color>
+    <color name="Reinbow_2">#FFB7B2</color>
+    <color name="Reinbow_3">#FFDAC1</color>
+    <color name="Reinbow_4">#E2F0CB</color>
+    <color name="Reinbow_5">#B5EAD7</color>
+    <color name="Reinbow_6">#C7CEEA</color>
+    <color name="Reinbow_7">#B7BEFF</color>
 </resources>
