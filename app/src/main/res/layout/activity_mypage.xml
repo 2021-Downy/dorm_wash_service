@@ -212,7 +212,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="517dp"
+        android:layout_marginTop="537dp"
         android:layout_marginEnd="215dp"
         android:layout_marginRight="215dp"
         android:text="사용자 리포트"
@@ -220,7 +220,7 @@
         android:textSize="18sp" />
 
     <Switch
-        android:id="@+id/switchlogview"
+        android:id="@+id/switchreport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -231,7 +231,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="245dp"
         android:layout_marginLeft="245dp"
-        android:layout_marginTop="519dp"
+        android:layout_marginTop="539dp"
         android:layout_marginEnd="115dp"
         android:layout_marginRight="115dp"
         android:checked="false"
@@ -251,7 +251,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="215dp"
         android:layout_marginLeft="215dp"
-        android:layout_marginTop="521dp"
+        android:layout_marginTop="541dp"
         android:layout_marginEnd="166dp"
         android:layout_marginRight="166dp"
         android:text="요일"
@@ -269,7 +269,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="302dp"
         android:layout_marginLeft="302dp"
-        android:layout_marginTop="521dp"
+        android:layout_marginTop="541dp"
         android:layout_marginEnd="66dp"
         android:layout_marginRight="66dp"
         android:text="시간"
@@ -313,38 +313,47 @@
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="562dp"
-        android:layout_marginEnd="227dp"
-        android:layout_marginRight="227dp"
-        android:layout_marginBottom="52dp">
-    </com.github.mikephil.charting.charts.PieChart>
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginEnd="234dp"
+        android:layout_marginRight="234dp"></com.github.mikephil.charting.charts.PieChart>
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart2"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="215dp"
-        android:layout_marginLeft="215dp"
-        android:layout_marginTop="560dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="54dp"></com.github.mikephil.charting.charts.PieChart>
+        android:layout_marginStart="229dp"
+        android:layout_marginLeft="229dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"></com.github.mikephil.charting.charts.PieChart>
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="wrap_content"
+        android:layout_height="190dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="594dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp" />
 
 </RelativeLayout>
