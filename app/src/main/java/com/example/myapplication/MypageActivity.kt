@@ -73,15 +73,15 @@ class MypageActivity : AppCompatActivity() {
 
         //요일 원형 그래프
         /*수정 필요 : 데이터 data_all, data_my 배열에 INT형으로 넣으면 됨! */
-        var Day_of_all = Array(7,{i ->(10..100).random()})    //예시
-        var Day_of_my = Array(7,{i ->(0..10).random()})  //예시
+        var Day_of_all = Array(7,{i ->(10..100).random()})    //전체 사용자 요일별 사용횟수(월,화,수,목,금,토,일)
+        var Day_of_my = Array(7,{i ->(0..10).random()})       //나의 요일별 사용횟수(월,화,수,목,금,토,일)
         makedaycharts(Day_of_all, Day_of_my)
 
 
         //시간 꺾은 선 그래프
-        /*아직 미완 */
-        var Time_of_all = Array(24,{i ->(0..50).random()})    //시간 x축 데이터
-        var Time_of_my = Array(24, {i->(0..10).random()})  // 사용자 수 y축 데이터 넣어야함 일단 0부터 20중 숫잘 랜덤값으로 초기화함
+        /*int 형으로 넣어야함 */
+        var Time_of_all = Array(24,{i ->(0..50).random()})    //전체 사용자 24시간별 사용횟수(0시..23시)
+        var Time_of_my = Array(24, {i->(0..10).random()})  // 나의 시간별 사용횟수(0시..23시)
         maketimecharts(Time_of_all, Time_of_my)
 
         /*스위치 버튼 이벤트*/
@@ -207,8 +207,8 @@ class MypageActivity : AppCompatActivity() {
         }
 
         //Part3
-        val vl = LineDataSet(entries, "All")
-        val v2 = LineDataSet(entries2, "My")
+        val vl = LineDataSet(entries, "ALL")
+        val v2 = LineDataSet(entries2, "MY")
 
         //Part4
         vl.setDrawValues(false) //각 점의 수 표시하기
@@ -246,7 +246,7 @@ class MypageActivity : AppCompatActivity() {
         lineChart.setPinchZoom(true)
 
         //Part9
-        lineChart.description.text = "Hour"
+        lineChart.description.text = "Usage/Hour"
         lineChart.setNoDataText("아직 데이터가 부족합니다!")
 
 
