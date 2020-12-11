@@ -43,33 +43,55 @@ class MypageActivity : AppCompatActivity() {
         var waveLoadongView: WaveLoadingView = findViewById(R.id.waveLoadongView)
         waveLoadongView.setProgressValue(0);
 
-        //seekbar의 동작에 따라 달라지는 웨이브 이팩트 progress가 시간(현재까지 소요된 시간)이고 50분이 max로 설정해둠 남은시간(50-progress)을 표시하도록 설정해둠
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                waveLoadongView.setProgressValue(progress);
+        /*추후에도 필요할지 모르니 지우지 말것!!!*/
+//        //seekbar의 동작에 따라 달라지는 웨이브 이팩트 progress가 시간(현재까지 소요된 시간)이고 50분이 max로 설정해둠 남은시간(50-progress)을 표시하도록 설정해둠
+//        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+//                waveLoadongView.setProgressValue(progress);
+//
+//                if (progress < 90) {
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setCenterTitle(String.format("%d분", (100 - progress) / 2));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+//                } else {
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setCenterTitle(String.format("%d분", (100 - progress) / 2));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+//                }
+//            }
+//
+//            override fun onStartTrackingTouch(p0: SeekBar?) {
+//
+//            }
+//
+//            override fun onStopTrackingTouch(p0: SeekBar?) {
+//
+//            }
+//
+//        })
+        //TEST용 SEEKBAR 비활성화
+        seekbar.visibility = View.INVISIBLE
 
-                if (progress < 90) {
+        //세탁기 전체 사용 시간은 50분이라고 할 때
+        var lefttime = (0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
+        var progress = lefttime*2
+        waveLoadongView.setProgressValue(progress);
+
+        if (progress < 90) {
                     waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d분", (100 - progress) / 2));
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
                     waveLoadongView.setTopTitle("");
                     waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
                 } else {
-                    waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d분", (100 - progress) / 2));
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
                     waveLoadongView.setTopTitle("");
+                    waveLoadongView.setBottomTitle("");
                     waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
-                }
-            }
+        }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
 
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-
-            }
-
-        })
         var user_num = intent.getStringExtra("user_num")
         var id = intent.getStringExtra("id")
         var pw = intent.getStringExtra("pw")
@@ -83,11 +105,6 @@ class MypageActivity : AppCompatActivity() {
         editTextId.setText(id);
         editTextPhone.setText(phone_num);
         editTextDorm.setText(dorm_num);
-
-//        mypage_name.text = "이름 : " + name
-//        mypage_id.text = "ID : " + id
-//        mypage_phone.text = "연락처 : " + phone_num
-//        mypage_dorm.text = "기숙사 : " + dorm_num
 
         /*사용자 데이터 분석 그래프*/
 
