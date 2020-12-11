@@ -73,16 +73,16 @@ class MypageActivity : AppCompatActivity() {
 
         //요일 원형 그래프
         /*수정 필요 : 데이터 data_all, data_my 배열에 INT형으로 넣으면 됨! */
-        var data_all = arrayOf(10, 20, 30, 40, 50, 50, 60)    //예시
-        var data_my = arrayOf(500, 300, 750, 800, 400, 700, 200)  //예시
-        makedaycharts(data_all, data_my)
+        var Day_of_all = arrayOf(10, 20, 30, 40, 50, 50, 60)    //예시
+        var Day_of_my = arrayOf(500, 300, 750, 800, 400, 700, 200)  //예시
+        makedaycharts(Day_of_all, Day_of_my)
 
 
         //시간 꺾은 선 그래프
         /*아직 미완 */
-        var labelList = arrayOf(11.2.toFloat(), 1.4.toFloat())  //testing
-        var jsonList = arrayOf(132.toFloat(), 404.toFloat())  //testing
-        maketimecharts(labelList, jsonList)
+        var Time_of_all = Array(24,{i ->(0..50).random()})    //시간 x축 데이터
+        var Time_of_my = Array<Int>(24, {i->(0..10).random()})  // 사용자 수 y축 데이터 넣어야함 일단 0부터 20중 숫잘 랜덤값으로 초기화함
+        maketimecharts(Time_of_all, Time_of_my)
 
         /*스위치 버튼 이벤트*/
         switchreport.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener
@@ -94,6 +94,7 @@ class MypageActivity : AppCompatActivity() {
                 chart2.setEnabled(true)
                 chart2.visibility = View.INVISIBLE
                 lineChart.visibility = View.VISIBLE
+                lineChart.animateX(1800, Easing.EaseInExpo)
             } else {
                 //Toast.makeText(this, "스위치-OFF", Toast.LENGTH_SHORT).show()
                 chart.setEnabled(false)
@@ -109,37 +110,28 @@ class MypageActivity : AppCompatActivity() {
 
     fun makedaycharts(data_all: Array<Int>, data_my: Array<Int>) :Unit{
         /* 요일 원형 그래프 */
+        var Dayofweek = arrayOf("월","화","수","목","금","토","일")
         chart.setUsePercentValues(true)
         chart2.setUsePercentValues(true)
 
         // 데이터 set
         val chart1_entries = ArrayList<PieEntry>()
-        chart1_entries.add(PieEntry(data_all[0].toFloat(), "월"))
-        chart1_entries.add(PieEntry(data_all[1].toFloat(), "화"))
-        chart1_entries.add(PieEntry(data_all[2].toFloat(), "수"))
-        chart1_entries.add(PieEntry(data_all[3].toFloat(), "목"))
-        chart1_entries.add(PieEntry(data_all[4].toFloat(), "금"))
-        chart1_entries.add(PieEntry(data_all[5].toFloat(), "토"))
-        chart1_entries.add(PieEntry(data_all[6].toFloat(), "일"))
         val chart2_entries = ArrayList<PieEntry>()
-        chart2_entries.add(PieEntry(data_my[0].toFloat(), "월"))
-        chart2_entries.add(PieEntry(data_my[1].toFloat(), "화"))
-        chart2_entries.add(PieEntry(data_my[2].toFloat(), "수"))
-        chart2_entries.add(PieEntry(data_my[3].toFloat(), "목"))
-        chart2_entries.add(PieEntry(data_my[4].toFloat(), "금"))
-        chart2_entries.add(PieEntry(data_my[5].toFloat(), "토"))
-        chart2_entries.add(PieEntry(data_my[6].toFloat(), "일"))
+        for( i in 0..6) {
+            chart1_entries.add(PieEntry(data_all[i].toFloat(), Dayofweek[i]))
+            chart2_entries.add(PieEntry(data_my[i].toFloat(), Dayofweek[i]))
+
+        }
 
         // 각 블록 색깔 지정 (꼭 리스트 값안에 담아야 함)
         val colorsItems = ArrayList<Int>()
-        //for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
-        colorsItems.add(Color.parseColor("#FF9AA2"))
-        colorsItems.add(Color.parseColor("#FFB7B2"))
-        colorsItems.add(Color.parseColor("#FFDAC1"))
-        colorsItems.add(Color.parseColor("#E2F0CB"))
-        colorsItems.add(Color.parseColor("#B5EAD7"))
-        colorsItems.add(Color.parseColor("#C7CEEA"))
-        colorsItems.add(Color.parseColor("#B7BEFF"))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_1))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_2))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_3))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_4))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_5))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_6))
+        colorsItems.add(getResources().getColor(R.color.Reinbow_7))
 
         //PieDataSet 변수를 만들어 위에서 셋팅한 색상과 그래프에 들어갈 퍼센테이지 수치 색상과 사이즈를 지정할 수 있다.
         //생성할 때, entries는 위에서 데이터셋한 리스트의 이름이고 오른쪽은 value값인데 빈값으로 셋팅해도 된다
@@ -202,70 +194,47 @@ class MypageActivity : AppCompatActivity() {
         l2.isEnabled = false
     }
 
-    fun maketimecharts(labelList : Array<Float> , valList : Array<Float> ) :Unit{
+    fun maketimecharts(val1List : Array<Int>, val2List : Array<Int> ) :Unit{
         //Part1
+        var timeList = Array(24,{i ->i})    //시간(0~23시)
         val entries = ArrayList<Entry>()
         val entries2 = ArrayList<Entry>()
 
         //Part2
-        entries.add(Entry(1f, 10f))
-        entries.add(Entry(2f, 2f))
-        entries.add(Entry(3f, 7f))
-        entries.add(Entry(4f, 20f))
-        entries.add(Entry(5f, 16f))
-        entries.add(Entry(6f, 1f))
-        entries.add(Entry(7f, 2f))
-        entries.add(Entry(8f, 4f))
-        entries.add(Entry(9f, 10f))
-        entries.add(Entry(10f, 18f))
-        entries.add(Entry(11f, 18f))
-        entries.add(Entry(12f, 18f))
-
-
-        entries2.add(Entry(1f, 12f))
-        entries2.add(Entry(2f, 11f))
-        entries2.add(Entry(3f, 2f))
-        entries2.add(Entry(4f, 0f))
-        entries2.add(Entry(5f, 0f))
-        entries2.add(Entry(6f, 10f))
-        entries2.add(Entry(7f, 3f))
-        entries2.add(Entry(8f, 8f))
-        entries2.add(Entry(9f, 5f))
-        entries2.add(Entry(10f, 0f))
-        entries2.add(Entry(11f, 2f))
-        entries2.add(Entry(12f, 1f))
+        for(i in 0..23) {
+            entries.add(Entry(timeList[i].toFloat(), val1List[i].toFloat()))
+            entries2.add(Entry(timeList[i].toFloat(), val2List[i].toFloat()))
+        }
 
         //Part3
         val vl = LineDataSet(entries, "All")
         val v2 = LineDataSet(entries2, "My")
 
         //Part4
-        vl.setDrawValues(false)
-        vl.setDrawFilled(true)
-        vl.setColor(R.color.design_default_color_error)
+        vl.setDrawValues(false) //각 점의 수 표시하기
+        vl.setDrawFilled(true)  //선그래프 아래 색 채우기
+        vl.setColor(getResources().getColor(R.color.Reinbow_7))
+        vl.setCircleColor(getResources().getColor(R.color.Reinbow_7))
+        vl.setFillColor(getResources().getColor(R.color.Reinbow_6))
         vl.lineWidth = 3f
-        vl.fillColor = R.color.lightorange
-        vl.fillAlpha = R.color.deeporange
 
         v2.setDrawValues(false)
-        v2.setDrawFilled(false)
+        v2.setDrawFilled(true)
         v2.lineWidth = 3f
-        v2.fillColor = R.color.design_default_color_error
-        v2.fillAlpha = R.color.design_default_color_secondary
+        v2.setColor(getResources().getColor(R.color.Reinbow_1))
+        v2.setCircleColor(getResources().getColor(R.color.Reinbow_1))
+        v2.setFillColor(getResources().getColor(R.color.Reinbow_2))
 
 
         //Part5
         lineChart.xAxis.labelRotationAngle = 0f
 
         //Part6
-        lineChart.data = LineData(vl)
-        lineChart.data = LineData(v2)
-
+        //두 그래프 합치기
         val chartData = LineData()
         chartData.addDataSet(vl)
         chartData.addDataSet(v2)
         lineChart.data = chartData
-
         lineChart.invalidate()
 
         //Part7
@@ -277,11 +246,10 @@ class MypageActivity : AppCompatActivity() {
         lineChart.setPinchZoom(true)
 
         //Part9
-        lineChart.description.text = "Parcent"
+        lineChart.description.text = "Hour"
         lineChart.setNoDataText("아직 데이터가 부족합니다!")
 
-        //Part10
-        lineChart.animateX(1800, Easing.EaseInExpo)
+
 
         lineChart.visibility=View.INVISIBLE
     }
