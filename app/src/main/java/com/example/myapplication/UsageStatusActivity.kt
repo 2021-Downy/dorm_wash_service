@@ -27,7 +27,9 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.Period
 import java.time.format.DateTimeFormatter
 
 var errorMessage_wm = "세탁기 현황 정보를 불러올 수 없습니다."
@@ -409,9 +411,9 @@ class UsageStatusActivity : AppCompatActivity() {
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         var start_time = item.getString(TAG_start_time)
-                        //남은시간계산
+//                        남은시간계산
                         val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
-                        remainTime = (50 - LocalDateTime.from(startTime).minute).toString()
+                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
                     }
 
                 } catch (e: JSONException) {

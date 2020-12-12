@@ -37,7 +37,7 @@ class RegisterActivity : AppCompatActivity() {
             val start_time = LocalDateTime.now()
             val date = onlyDate.toString()
             task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, date, start_time.toString(), start_time.plusMinutes(50).toString())
-//            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, "2020-12-08", "2020-12-08T00:00:54.608", "2020-12-08T00:40:54.608")
+//            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, "2020-12-12","2020-12-12T20:30:00.00", "2020-12-12T21:20:00.00")
 
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
             UsageStatusActivity.putExtra("user_num",user_num)
