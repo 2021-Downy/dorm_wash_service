@@ -44,30 +44,23 @@ class UsageStatusActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         user_num = intent.getStringExtra("user_num").toString()
-        var id = intent.getStringExtra("id")
-        var pw = intent.getStringExtra("pw")
-        var name = intent.getStringExtra("name")
         dorm_num = intent.getStringExtra("dorm_num").toString()
-        var phone_num = intent.getStringExtra("phone_num")
         using_num = intent.getStringExtra("using_num").toString()
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            val MypageActivity = Intent(this, MypageActivity::class.java)
-            MypageActivity.putExtra("user_num",user_num)
-            MypageActivity.putExtra("id", id)
-            MypageActivity.putExtra("pw", pw)
-            MypageActivity.putExtra("name", name)
-            MypageActivity.putExtra("dorm_num", dorm_num)
-            MypageActivity.putExtra("phone_num", phone_num)
-            MypageActivity.putExtra("using_num", using_num)
-            startActivity(MypageActivity)
-        }
+
+//        val task3 = readData3()
+//        task3.execute("http://morned270.dothome.co.kr/getjson_readTime.php",using_num)
         val task2 = readData2()
         task2.execute("http://morned270.dothome.co.kr/getjson_readUN.php",user_num)
         val task = readData()
         task.execute("http://morned270.dothome.co.kr/getjson_readWM.php",dorm_num)
 
-
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            val MypageActivity = Intent(this, MypageActivity::class.java)
+            MypageActivity.putExtra("user_num",user_num)
+            MypageActivity.putExtra("using_num", using_num)
+            startActivity(MypageActivity)
+        }
     }
 
     fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>){
@@ -337,6 +330,91 @@ class UsageStatusActivity : AppCompatActivity() {
             if(dorm == "계영원")
                 dorm_num=1
             val postParameters: String = "dorm_num=$dorm_num"
+
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                if (postParameters != null) {
+                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                }
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            }catch (e: Exception) {
+                //errorString = e.toString()
+                null
+            }
+        }
+    }
+
+    private inner class readData3 : AsyncTask<String?, Void?, String?>() {
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result == null) {
+                Toast.makeText(
+                    applicationContext,
+                    errorMessage_wm,
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } else {
+                mJsonString = result
+                val TAG_JSON = "webnautes"
+                val TAG_end_time = "end_time"
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                    for (i in 0 until jsonArray.length()) {
+                        val item: JSONObject = jsonArray.getJSONObject(i)
+                        val end_time = item.getString(TAG_end_time)
+                    }
+                } catch (e: JSONException) {
+                    Toast.makeText(
+                        applicationContext,
+                        errorMessage_wm,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val serverURL = params[0]
+            val using_num = params[1]
+            val postParameters: String = "using_num=$using_num"
 
             return try {
                 val url = URL(serverURL)

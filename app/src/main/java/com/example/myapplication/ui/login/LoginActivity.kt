@@ -150,25 +150,17 @@ class LoginActivity : AppCompatActivity() {
                 mJsonString = result
                 val TAG_JSON = "webnautes"
                 val TAG_NUM = "user_num"
-                val TAG_ID = "ID"
-                val TAG_PW = "pw"
                 val TAG_NAME = "name"
                 val TAG_DORM = "dorm_num"
-                val TAG_PHONE = "phone_num"
-                val TAG_USING = "using_num"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         val user_num: String = item.getString(TAG_NUM)
-                        val id: String = item.getString(TAG_ID)
-                        val pw: String = item.getString(TAG_PW)
                         val name: String = item.getString(TAG_NAME)
                         val dorm_num: String = item.getString(TAG_DORM)
-                        val phone_num: String = item.getString(TAG_PHONE)
-                        val using_num: String = item.getString(TAG_USING)
-                        updateUiWithUser(user_num, id, pw, name, dorm_num, phone_num, using_num)
+                        updateUiWithUser(user_num, name, dorm_num)
                     }
                 } catch (e: JSONException) {
                     //Log.d(LoginActivity.TAG, "showResult : ", e)
@@ -235,7 +227,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun updateUiWithUser(user_num: String, id: String, pw: String, displayName: String, dorm_num: String, phone_num: String, using_num: String) {
+    fun updateUiWithUser(user_num: String, displayName: String, dorm_num: String) {
 
         val welcome = getString(R.string.welcome)
         //val displayName = model.displayName
@@ -249,12 +241,7 @@ class LoginActivity : AppCompatActivity() {
         //사용현황 띄우기
         val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
         UsageStatusActivity.putExtra("user_num", user_num)
-        UsageStatusActivity.putExtra("id", id)
-        UsageStatusActivity.putExtra("pw", pw)
-        UsageStatusActivity.putExtra("name", displayName)
         UsageStatusActivity.putExtra("dorm_num", dorm_num)
-        UsageStatusActivity.putExtra("phone_num", phone_num)
-        UsageStatusActivity.putExtra("using_num", using_num)
         startActivity(UsageStatusActivity)
     }
 

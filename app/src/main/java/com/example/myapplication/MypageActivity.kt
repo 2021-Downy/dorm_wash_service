@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
@@ -10,6 +12,7 @@ import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.ui.login.mJsonString
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
@@ -19,6 +22,9 @@ import kotlinx.android.synthetic.main.activity_mypage.*
 import kotlinx.android.synthetic.main.activity_mypage.editTextPhone
 import kotlinx.android.synthetic.main.activity_signup.*
 import me.itangqi.waveloadingview.WaveLoadingView
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -75,6 +81,7 @@ class MypageActivity : AppCompatActivity() {
         seekbar.visibility = View.INVISIBLE
 
         //세탁기 전체 사용 시간은 50분이라고 할 때
+
         var lefttime = (0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
         var progress = lefttime*2
         waveLoadongView.setProgressValue(progress);
@@ -93,18 +100,17 @@ class MypageActivity : AppCompatActivity() {
 
 
         var user_num = intent.getStringExtra("user_num")
-        var id = intent.getStringExtra("id")
-        var pw = intent.getStringExtra("pw")
-        var name = intent.getStringExtra("name")
-        var dorm_num = intent.getStringExtra("dorm_num")
-        var phone_num = intent.getStringExtra("phone_num")
         var using_num = intent.getStringExtra("using_num")
 
-        /* 회원 정보 출력 */
-        editTextPersonName.setText(name);
-        editTextId.setText(id);
-        editTextPhone.setText(phone_num);
-        editTextDorm.setText(dorm_num);
+        val task2 = readData()
+        task2.execute("http://$IP_ADDRESS/getjson_readUser.php", user_num)
+
+
+//        /* 회원 정보 출력 */
+//        editTextPersonName.setText(name);
+//        editTextId.setText(id);
+//        editTextPhone.setText(phone_num);
+//        editTextDorm.setText(dorm_num);
 
         /*사용자 데이터 분석 그래프*/
 
@@ -243,10 +249,114 @@ class MypageActivity : AppCompatActivity() {
             val task = MypageActivity.UpdateData()
             task.execute("http://$IP_ADDRESS/updateTest.php", name, phone, dorm, email)
 
+            //마이페이지 새로띄우기
+            val MypageActivity = Intent(this, MypageActivity::class.java)
+            MypageActivity.putExtra("user_num",user_num)
+            MypageActivity.putExtra("using_num", using_num)
+            startActivity(MypageActivity)
+            finish()
+
             Toast.makeText(applicationContext, "정보 수정이 완료되었습니다.", Toast.LENGTH_LONG).show()
-            super.onBackPressed();
         }
 
+    }
+
+    /*Read Data in mysql*/
+    private inner class readData : AsyncTask<String?, Void?, String?>() {
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result == null) {
+                Toast.makeText(
+                    applicationContext,
+                    errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } else {
+                mJsonString = result
+                val TAG_JSON = "webnautes"
+                val TAG_ID = "ID"
+                val TAG_NAME = "name"
+                val TAG_PHONE = "phone_num"
+                val TAG_DORM = "dorm_num"
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                    for (i in 0 until jsonArray.length()) {
+                        val item: JSONObject = jsonArray.getJSONObject(i)
+                        val ID: String = item.getString(TAG_ID)
+                        val name: String = item.getString(TAG_NAME)
+                        val phone_num: String = item.getString(TAG_PHONE)
+                        val dorm_num: String = item.getString(TAG_DORM)
+
+                        /* 회원 정보 출력 */
+                        editTextPersonName.setText(name);
+                        editTextId.setText(ID);
+                        editTextPhone.setText(phone_num);
+                        editTextDorm.setText(dorm_num);
+                    }
+                } catch (e: JSONException) {
+                    Toast.makeText(
+                        applicationContext,
+                        errorMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val serverURL = params[0]
+            val user_num = params[1]
+            val postParameters: String = "user_num=$user_num"
+
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                if (postParameters != null) {
+                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                }
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            } catch (e: Exception) {
+                //errorString = e.toString()
+                null
+            }
+        }
     }
 
     /*Insert Data in mysql*/
