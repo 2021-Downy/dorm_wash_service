@@ -402,16 +402,16 @@ class UsageStatusActivity : AppCompatActivity() {
             } else {
                 mJsonString = result
                 val TAG_JSON = "webnautes"
-                val TAG_end_time = "end_time"
+                val TAG_start_time = "start_time"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
-                        var end_time = item.getString(TAG_end_time)
+                        var start_time = item.getString(TAG_start_time)
                         //남은시간계산
-                        val endTime = LocalDateTime.parse(end_time, DateTimeFormatter.ISO_DATE_TIME)
-                        remainTime = LocalDateTime.from(endTime).minute.toString()
+                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = (50 - LocalDateTime.from(startTime).minute).toString()
                     }
 
                 } catch (e: JSONException) {
