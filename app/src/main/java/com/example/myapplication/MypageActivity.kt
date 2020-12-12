@@ -42,6 +42,9 @@ class MypageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage)
 
+        //예지
+        var remainTime = intent.getStringExtra("remainTime")
+
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
 
@@ -81,8 +84,7 @@ class MypageActivity : AppCompatActivity() {
         seekbar.visibility = View.INVISIBLE
 
         //세탁기 전체 사용 시간은 50분이라고 할 때
-
-        var lefttime = (0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
+        var lefttime = remainTime!!.toInt()   //(0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
         var progress = lefttime*2
         waveLoadongView.setProgressValue(progress);
 
