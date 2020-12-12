@@ -341,6 +341,18 @@ class UsageStatusActivity : AppCompatActivity() {
             var dorm_num = 0
             if(dorm == "계영원")
                 dorm_num=1
+            else if(dorm=="개성재"){
+                dorm_num=2
+            }
+            else if(dorm=="양성재"){
+                dorm_num=3
+            }
+            else if(dorm=="양진재"){
+                dorm_num=4
+            }
+            else if(dorm=="양현재"){
+                dorm_num=5
+            }
             val postParameters: String = "dorm_num=$dorm_num"
 
             return try {
@@ -414,8 +426,8 @@ class UsageStatusActivity : AppCompatActivity() {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         var start_time = item.getString(TAG_start_time)
 //                        남은시간계산
-                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
-                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
+//                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+//                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
                     }
 
                 } catch (e: JSONException) {

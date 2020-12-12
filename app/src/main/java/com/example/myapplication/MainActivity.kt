@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         text_intro.startAnimation(alphaanim)
 
             Handler().postDelayed({ startActivity(Intent(this, LoginActivity::class.java)) }, 3000L)
-        
-        //
     }
 
 }

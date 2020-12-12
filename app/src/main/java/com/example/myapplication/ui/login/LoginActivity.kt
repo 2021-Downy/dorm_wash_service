@@ -243,6 +243,7 @@ class LoginActivity : AppCompatActivity() {
         UsageStatusActivity.putExtra("user_num", user_num)
         UsageStatusActivity.putExtra("dorm_num", dorm_num)
         startActivity(UsageStatusActivity)
+        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

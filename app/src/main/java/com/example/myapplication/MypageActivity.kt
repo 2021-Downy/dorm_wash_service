@@ -32,7 +32,7 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-
+var errorMessage_mypage = "사용자 정보를 불러올 수 없습니다."
 class MypageActivity : AppCompatActivity() {
 
     //에뮬레이터로 실행시 ip주소
@@ -307,7 +307,7 @@ class MypageActivity : AppCompatActivity() {
             if (result == null) {
                 Toast.makeText(
                     applicationContext,
-                    errorMessage,
+                    errorMessage_mypage,
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -337,7 +337,7 @@ class MypageActivity : AppCompatActivity() {
                 } catch (e: JSONException) {
                     Toast.makeText(
                         applicationContext,
-                        errorMessage,
+                        errorMessage_mypage,
                         Toast.LENGTH_LONG
                     ).show()
                 }
