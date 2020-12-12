@@ -4,30 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TerminateActivity">
+    tools:context=".TerminateActivity"
+    android:background="@drawable/img_bg_rt">
 
     <TextView
         android:id="@+id/textView_terminate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="97dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="175dp"
-        tools:layout_editor_absoluteY="128dp" />
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="322dp"
+        android:text="n번 세탁기를 사용하시겠습니까?"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="150dp" />
 
     <Button
         android:id="@+id/terminate_yes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="69dp"
-        android:layout_marginLeft="69dp"
-        android:layout_marginTop="225dp"
-        android:text="예" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="427dp"
+        android:layout_marginEnd="243dp"
+        android:layout_marginRight="243dp"
+        android:text="예"
+        android:textColor="@color/yellow"
+        tools:layout_editor_absoluteX="78dp"
+        tools:layout_editor_absoluteY="240dp" />
 
     <Button
         android:id="@+id/terminate_no"
@@ -36,8 +47,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="225dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginRight="110dp"
-        android:text="아니오" />
+        android:layout_marginTop="425dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginRight="75dp"
+        android:text="아니요"
+        android:textColor="@color/yellow"
+        tools:layout_editor_absoluteX="238dp"
+        tools:layout_editor_absoluteY="240dp" />
+
 </RelativeLayout>
