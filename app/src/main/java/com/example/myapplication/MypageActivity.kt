@@ -45,6 +45,7 @@ class MypageActivity : AppCompatActivity() {
         //예지
         var remainTime = intent.getStringExtra("remainTime")
         var dorm_num = intent.getStringExtra("dorm_num")
+        var usingnum = intent.getStringExtra("using_num").toString()
 
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
@@ -90,18 +91,40 @@ class MypageActivity : AppCompatActivity() {
         var progress = lefttime*2
         waveLoadongView.setProgressValue(progress);
 
-        if (progress < 90) {
-                    waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                    waveLoadongView.setTopTitle("");
-                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
-                } else {
-                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                    waveLoadongView.setTopTitle("");
-                    waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+//        if (progress < 90) {
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+//                } else {
+//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+//        }
+        if (usingnum != "0") {
+            if (progress < 90) {
+                waveLoadongView.setBottomTitle("");
+                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                waveLoadongView.setTopTitle("");
+                waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+            }
+            else if(progress<=0){
+                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+            }
+            else {
+                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                waveLoadongView.setTopTitle("");
+                waveLoadongView.setBottomTitle("");
+                waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+            }
         }
-
+        else{
+            waveLoadongView.setProgressValue(100);
+            waveLoadongView.setCenterTitle(String.format("사용대기중"));
+            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
+        }
 
         var user_num = intent.getStringExtra("user_num")
         var using_num = intent.getStringExtra("using_num")
