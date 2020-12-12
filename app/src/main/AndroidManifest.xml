@@ -12,21 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".TerminateActivity"></activity>
         <activity android:name=".RegisterActivity" /> <!-- 세탁기 사용 등록 액티비티 -->
-        <activity android:name=".MypageActivity">
-
-        </activity> <!-- 마이페이지 액티비티 -->
+        <activity android:name=".MypageActivity"></activity> <!-- 마이페이지 액티비티 -->
         <activity
             android:name=".UsageStatusActivity"
             android:label="@string/title_activity_usage_status"
-            android:theme="@style/Theme.MyApplication.NoActionBar"><!-- 사용현황 액티비티 -->
+            android:theme="@style/Theme.MyApplication.NoActionBar"> <!-- 사용현황 액티비티 -->
         </activity>
         <activity android:name=".SignupActivity" /> <!-- 회원가입 액티비티 -->
         <activity android:name=".MainActivity"> <!-- 시작화면(로고) 액티비티 -->
             <!-- 원래 시작자리 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

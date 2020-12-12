@@ -27,12 +27,14 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 var errorMessage_wm = "세탁기 현황 정보를 불러올 수 없습니다."
-var arrWMlist = mutableListOf<Array<Int>>()    //사용자 정보에 해당하는 기숙사의 세탁기들 리스트
+//var arrWMlist = mutableListOf<Array<Int>>()    //사용자 정보에 해당하는 기숙사의 세탁기들 리스트
 var runningWM = mutableListOf<Int>()
 var emptyWM = mutableListOf<Int>()
-var buttonList = mutableListOf<Button>()
-var usingList = mutableListOf<Button>()
-var userNum = ""
+var buttonList_R = mutableListOf<Button>()
+var usingList_R = mutableListOf<Button>()
+var using_num=""
+var user_num=""
+var dorm_num=""
 
 class UsageStatusActivity : AppCompatActivity() {
 
@@ -41,14 +43,13 @@ class UsageStatusActivity : AppCompatActivity() {
         setContentView(R.layout.activity_usage_status2)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        var user_num = intent.getStringExtra("user_num")
-        userNum = user_num.toString()
+        user_num = intent.getStringExtra("user_num").toString()
         var id = intent.getStringExtra("id")
         var pw = intent.getStringExtra("pw")
         var name = intent.getStringExtra("name")
-        var dorm_num = intent.getStringExtra("dorm_num")
+        dorm_num = intent.getStringExtra("dorm_num").toString()
         var phone_num = intent.getStringExtra("phone_num")
-        var using_num = intent.getStringExtra("using_num")
+        using_num = intent.getStringExtra("using_num").toString()
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             val MypageActivity = Intent(this, MypageActivity::class.java)
@@ -61,37 +62,61 @@ class UsageStatusActivity : AppCompatActivity() {
             MypageActivity.putExtra("using_num", using_num)
             startActivity(MypageActivity)
         }
+        val task2 = readData2()
+        task2.execute("http://morned270.dothome.co.kr/getjson_readUN.php",user_num)
         val task = readData()
         task.execute("http://morned270.dothome.co.kr/getjson_readWM.php",dorm_num)
 
+
     }
 
-    fun setButton(){
+    fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>){
         var WM_num = ""
         for (i in buttonList){
-
             //빈 세탁기 이미지 삽입
             i.setBackgroundResource(R.drawable.img_wm_empty)
 
             i.setOnClickListener{
-                WM_num = i.getText().toString()
+                WM_num = i.text.toString()
                 val RegisterActivity = Intent(this, RegisterActivity::class.java)
-                RegisterActivity.putExtra("user_num",userNum)
-                RegisterActivity.putExtra("WM_num", WM_num)
+                RegisterActivity.putExtra("user_num",user_num)
+                RegisterActivity.putExtra("dorm_num",dorm_num)
+                RegisterActivity.putExtra("WM_num",WM_num)
                 startActivity(RegisterActivity)
+                finish()
             }
         }
 
         for (i in usingList){
+            var s = i.text.toString()
             //사용중인 세탁기 이미지 삽입
-            /* 코드 보충 필요 : if (내가쓰는 세탁기) */
-                //i.setBackgroundResource(R.drawable.img_wm_myuse)
-            /* 코드 보충 필요 : else (남이 쓰는 세탁기 세탁기) */
             i.setBackgroundResource(R.drawable.img_wm_otheruse)
+        }
+        if(using_num!="" && using_num.toInt()>0){
+            for (i in usingList){
+
+                var WM_num = i.text.toString()
+                if(WM_num == using_num){
+                    i.setBackgroundResource(R.drawable.img_wm_myuse)
+
+                    i.setOnClickListener{
+                        val TerminateActivity = Intent(this, TerminateActivity::class.java)
+                        TerminateActivity.putExtra("user_num",user_num)
+                        TerminateActivity.putExtra("dorm_num",dorm_num)
+                        TerminateActivity.putExtra("WM_num",WM_num)
+                        startActivity(TerminateActivity)
+                        finish()
+                    }
+                }
+            }
         }
     }
 
     fun setWM(arrWMlist: MutableList<Array<Int>>){
+
+        var usingList = mutableListOf<Button>()
+        var buttonList = mutableListOf<Button>()
+
         WM1.visibility = View.GONE
         WM2.visibility = View.GONE
         WM3.visibility = View.GONE
@@ -254,8 +279,11 @@ class UsageStatusActivity : AppCompatActivity() {
                     usingList.add(WM12)
                 }
             }
-            setButton()
+
         }
+        buttonList_R = buttonList
+        usingList_R = usingList
+        setButton(buttonList,usingList)
     }
 
     private inner class readData : AsyncTask<String?, Void?, String?>() {
@@ -280,6 +308,8 @@ class UsageStatusActivity : AppCompatActivity() {
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+
+                    var arrWMlist = mutableListOf<Array<Int>>()
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         val WM_num: String = item.getString(TAG_WM_num)
@@ -307,6 +337,91 @@ class UsageStatusActivity : AppCompatActivity() {
             if(dorm == "계영원")
                 dorm_num=1
             val postParameters: String = "dorm_num=$dorm_num"
+
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                if (postParameters != null) {
+                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                }
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            }catch (e: Exception) {
+                //errorString = e.toString()
+                null
+            }
+        }
+    }
+
+    private inner class readData2 : AsyncTask<String?, Void?, String?>() {
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result == null) {
+                Toast.makeText(
+                    applicationContext,
+                    errorMessage_wm,
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } else {
+                mJsonString = result
+                val TAG_JSON = "webnautes"
+                val TAG_using_num = "using_num"
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                    for (i in 0 until jsonArray.length()) {
+                        val item: JSONObject = jsonArray.getJSONObject(i)
+                        using_num = item.getString(TAG_using_num)
+                    }
+                } catch (e: JSONException) {
+                    Toast.makeText(
+                        applicationContext,
+                        errorMessage_wm,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val serverURL = params[0]
+            val user_num = params[1]
+            val postParameters: String = "user_num=$user_num"
 
             return try {
                 val url = URL(serverURL)

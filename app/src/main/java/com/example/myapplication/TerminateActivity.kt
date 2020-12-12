@@ -2,58 +2,52 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.AsyncTask
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_terminate.*
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.time.LocalDate
-import java.time.LocalDateTime
 
-class RegisterActivity : AppCompatActivity() {
+class TerminateActivity : AppCompatActivity() {
 
     private val IP_ADDRESS = "morned270.dothome.co.kr"
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.activity_terminate)
 
         var user_num = intent.getStringExtra("user_num").toString()
         var dorm_num = intent.getStringExtra("dorm_num").toString()
         var WM_num = intent.getStringExtra("WM_num").toString()
-        textView_register.setText(WM_num+"번 세탁기를 사용하시겠습니까?")
+        textView_terminate.setText("세탁기 사용을 종료하시겠습니까?")
 
-        button_yes.setOnClickListener{
+        terminate_yes.setOnClickListener {
             val task = InsertData()
-//            val onlyDate: LocalDate = LocalDate.now()
-//            val start_time = LocalDateTime.now()
-//            val date = onlyDate.toString()
-//            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, date, start_time.toString(), start_time.plusMinutes(40).toString())
-            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, "2020-12-08", "2020-12-08T00:00:54.608", "2020-12-08T00:40:54.608")
+            task.execute("http://$IP_ADDRESS/terminateUses.php", user_num, WM_num)
 
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
-            UsageStatusActivity.putExtra("user_num",user_num)
-            UsageStatusActivity.putExtra("dorm_num",dorm_num)
+            UsageStatusActivity.putExtra("user_num", user_num)
+            UsageStatusActivity.putExtra("dorm_num", dorm_num)
             startActivity(UsageStatusActivity)
 
-            Toast.makeText(applicationContext, "등록되었습니다.", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "사용 종료되었습니다.", Toast.LENGTH_LONG).show()
             finish()
         }
-        button_no.setOnClickListener{
+
+        terminate_no.setOnClickListener {
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
-            UsageStatusActivity.putExtra("user_num",user_num)
-            UsageStatusActivity.putExtra("dorm_num",dorm_num)
+            UsageStatusActivity.putExtra("user_num", user_num)
+            UsageStatusActivity.putExtra("dorm_num", dorm_num)
             startActivity(UsageStatusActivity)
             finish()
         }
+
     }
 
     /*Insert Data in mysql*/
@@ -65,11 +59,8 @@ class RegisterActivity : AppCompatActivity() {
             val serverURL: String? = params[0]
             val user_num: String? = params[1]
             val WM_num: String? = params[2]
-            val date: String? = params[3]
-            val start_time: String? = params[4]
-            val end_time: String? = params[5]
 
-            val postParameters: String = "user_num=$user_num&WM_num=$WM_num&date=$date&start_time=$start_time&end_time=$end_time"
+            val postParameters: String = "user_num=$user_num&WM_num=$WM_num"
 
             try {
                 val url = URL(serverURL)
