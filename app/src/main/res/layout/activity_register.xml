@@ -17,28 +17,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="75dp"
         android:layout_marginLeft="75dp"
-        android:layout_marginTop="322dp"
-        android:text="세탁기 사용을 종료하시겠습니까?"
+        android:layout_marginTop="261dp"
+        android:text="n번 세탁기를 사용하시겠습니까?"
         android:textColor="@color/blue"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="150dp" />
-
-    <Button
-        android:id="@+id/button_yes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="427dp"
-        android:layout_marginEnd="243dp"
-        android:layout_marginRight="243dp"
-        android:text="예"
-        android:textColor="@color/yellow"
-        tools:layout_editor_absoluteX="78dp"
-        tools:layout_editor_absoluteY="240dp" />
 
     <Button
         android:id="@+id/button_no"
@@ -47,12 +32,27 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="425dp"
+        android:layout_marginTop="364dp"
         android:layout_marginEnd="75dp"
         android:layout_marginRight="75dp"
         android:text="아니요"
         android:textColor="@color/yellow"
         tools:layout_editor_absoluteX="238dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <Button
+        android:id="@+id/button_yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="243dp"
+        android:layout_marginRight="243dp"
+        android:text="예"
+        android:textColor="@color/yellow"
+        tools:layout_editor_absoluteX="78dp"
         tools:layout_editor_absoluteY="240dp" />
 
 </RelativeLayout>
