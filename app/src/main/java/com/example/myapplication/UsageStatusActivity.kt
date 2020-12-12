@@ -54,7 +54,7 @@ class UsageStatusActivity : AppCompatActivity() {
         dorm_num = intent.getStringExtra("dorm_num").toString()
         using_num = intent.getStringExtra("using_num").toString()
 
-
+        remainTime="0"//사용종료->마이페이지 보면 0분으로 나오기 위해 초기화
 
         val task2 = readData2()
         task2.execute("http://morned270.dothome.co.kr/getjson_readUN.php",user_num)
@@ -64,9 +64,11 @@ class UsageStatusActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             val MypageActivity = Intent(this, MypageActivity::class.java)
             MypageActivity.putExtra("user_num",user_num)
+            MypageActivity.putExtra("dorm_num",dorm_num)
             MypageActivity.putExtra("using_num", using_num)
             MypageActivity.putExtra("remainTime",remainTime)
             startActivity(MypageActivity)
+            finish()
         }
     }
 

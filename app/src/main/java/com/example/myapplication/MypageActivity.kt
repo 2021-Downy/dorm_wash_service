@@ -44,6 +44,7 @@ class MypageActivity : AppCompatActivity() {
 
         //예지
         var remainTime = intent.getStringExtra("remainTime")
+        var dorm_num = intent.getStringExtra("dorm_num")
 
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
@@ -84,6 +85,7 @@ class MypageActivity : AppCompatActivity() {
         seekbar.visibility = View.INVISIBLE
 
         //세탁기 전체 사용 시간은 50분이라고 할 때
+        //예지
         var lefttime = remainTime!!.toInt()   //(0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
         var progress = lefttime*2
         waveLoadongView.setProgressValue(progress);
@@ -151,6 +153,16 @@ class MypageActivity : AppCompatActivity() {
                 lineChart.visibility = View.INVISIBLE
             }
         })
+
+        //예지
+        button_back.setOnClickListener {
+            //사용현황 띄우기
+            val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
+            UsageStatusActivity.putExtra("user_num", user_num)
+            UsageStatusActivity.putExtra("dorm_num", dorm_num)
+            startActivity(UsageStatusActivity)
+            finish()
+        }
     }
 
     fun makedaycharts(data_all: Array<Int>, data_my: Array<Int>) :Unit{
