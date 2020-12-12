@@ -30,7 +30,7 @@
         android:padding="0sp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/lightblue"
+        app:backgroundTint="@color/blue"
         app:srcCompat="@drawable/img_mypage" />
 
 
