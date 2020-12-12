@@ -426,8 +426,8 @@ class UsageStatusActivity : AppCompatActivity() {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         var start_time = item.getString(TAG_start_time)
 //                        남은시간계산
-//                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
-//                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
+                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
                     }
 
                 } catch (e: JSONException) {
