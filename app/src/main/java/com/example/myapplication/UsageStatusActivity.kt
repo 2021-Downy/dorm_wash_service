@@ -3,11 +3,13 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,8 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 var errorMessage_wm = "세탁기 현황 정보를 불러올 수 없습니다."
 //var arrWMlist = mutableListOf<Array<Int>>()    //사용자 정보에 해당하는 기숙사의 세탁기들 리스트
@@ -35,6 +39,7 @@ var usingList_R = mutableListOf<Button>()
 var using_num=""
 var user_num=""
 var dorm_num=""
+var remainTime="0"
 
 class UsageStatusActivity : AppCompatActivity() {
 
@@ -48,8 +53,7 @@ class UsageStatusActivity : AppCompatActivity() {
         using_num = intent.getStringExtra("using_num").toString()
 
 
-//        val task3 = readData3()
-//        task3.execute("http://morned270.dothome.co.kr/getjson_readTime.php",using_num)
+
         val task2 = readData2()
         task2.execute("http://morned270.dothome.co.kr/getjson_readUN.php",user_num)
         val task = readData()
@@ -59,6 +63,7 @@ class UsageStatusActivity : AppCompatActivity() {
             val MypageActivity = Intent(this, MypageActivity::class.java)
             MypageActivity.putExtra("user_num",user_num)
             MypageActivity.putExtra("using_num", using_num)
+            MypageActivity.putExtra("remainTime",remainTime)
             startActivity(MypageActivity)
         }
     }
@@ -100,6 +105,9 @@ class UsageStatusActivity : AppCompatActivity() {
                         startActivity(TerminateActivity)
                         finish()
                     }
+
+                    val task3 = readData3()
+                    task3.execute("http://morned270.dothome.co.kr/getjson_readTime.php",using_num)
                 }
             }
         }
@@ -380,6 +388,7 @@ class UsageStatusActivity : AppCompatActivity() {
 
     private inner class readData3 : AsyncTask<String?, Void?, String?>() {
 
+        @RequiresApi(Build.VERSION_CODES.O)
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
@@ -399,8 +408,12 @@ class UsageStatusActivity : AppCompatActivity() {
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
-                        val end_time = item.getString(TAG_end_time)
+                        var end_time = item.getString(TAG_end_time)
+                        //남은시간계산
+                        val endTime = LocalDateTime.parse(end_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = LocalDateTime.from(endTime).minute.toString()
                     }
+
                 } catch (e: JSONException) {
                     Toast.makeText(
                         applicationContext,
