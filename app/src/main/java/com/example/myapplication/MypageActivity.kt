@@ -93,20 +93,9 @@ class MypageActivity : AppCompatActivity() {
         //세탁기 전체 사용 시간은 50분이라고 할 때
         //예지
         var lefttime = remainTime!!.toInt()   //(0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
-        var progress = lefttime*2
+        var progress = 100-lefttime*2
         waveLoadongView.setProgressValue(progress);
 
-//        if (progress < 90) {
-//                    waveLoadongView.setBottomTitle("");
-//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-//                    waveLoadongView.setTopTitle("");
-//                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
-//                } else {
-//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-//                    waveLoadongView.setTopTitle("");
-//                    waveLoadongView.setBottomTitle("");
-//                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
-//        }
         if (usingnum != "0") {
             if (progress < 90) {
                 waveLoadongView.setBottomTitle("");
@@ -114,7 +103,8 @@ class MypageActivity : AppCompatActivity() {
                 waveLoadongView.setTopTitle("");
                 waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
             }
-            else if(progress<=0){
+            else if(progress<0){
+                waveLoadongView.setProgressValue(70);
                 waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
                 waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
             }
@@ -126,7 +116,7 @@ class MypageActivity : AppCompatActivity() {
             }
         }
         else{
-            waveLoadongView.setProgressValue(100);
+            waveLoadongView.setProgressValue(70);
             waveLoadongView.setCenterTitle(String.format("사용대기중"));
             waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
         }
