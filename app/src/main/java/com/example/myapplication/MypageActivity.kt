@@ -235,10 +235,6 @@ class MypageActivity : AppCompatActivity() {
             }
         }
 
-        // 각 블록 색깔 지정 (꼭 리스트 값안에 담아야 함)
-
-
-
         //PieDataSet 변수를 만들어 위에서 셋팅한 색상과 그래프에 들어갈 퍼센테이지 수치 색상과 사이즈를 지정할 수 있다.
         //생성할 때, entries는 위에서 데이터셋한 리스트의 이름이고 오른쪽은 value값인데 빈값으로 셋팅해도 된다
         val chart1_pieDataSet = PieDataSet(chart1_entries, "")
