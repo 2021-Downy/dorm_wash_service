@@ -179,21 +179,65 @@ class MypageActivity : AppCompatActivity() {
         // 데이터 set
         val chart1_entries = ArrayList<PieEntry>()
         val chart2_entries = ArrayList<PieEntry>()
-        for( i in 0..6) {
-            chart1_entries.add(PieEntry(data_all[i].toFloat(), Dayofweek[i]))
-            chart2_entries.add(PieEntry(data_my[i].toFloat(), Dayofweek[i]))
+        // 각 블록 색깔 지정 (꼭 리스트 값안에 담아야 함)
+        val colorsItems = ArrayList<Int>()
+        val colorsItems2 = ArrayList<Int>()
 
+        for( i in 0..6) {
+            print("-----------------------------------------"+i+"요일의 값은 : "+data_all[i]+"--------------------------------------------")
+            if(data_all[i]!=0) {
+                chart1_entries.add(PieEntry(data_all[i].toFloat(), Dayofweek[i]))
+                if(i==0){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_1))
+                }
+                else if(i==1){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_2))
+                }
+                else if(i==2){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_3))
+                }
+                else if(i==3){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_4))
+                }
+                else if(i==4){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_5))
+                }
+                else if(i==5){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_6))
+                }
+                else if(i==6){
+                    colorsItems.add(getResources().getColor(R.color.Reinbow_7))
+                }
+            }
+            if(data_my[i]!=0) {
+                chart2_entries.add(PieEntry(data_my[i].toFloat(), Dayofweek[i]))
+                if(i==0){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_1))
+                }
+                else if(i==1){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_2))
+                }
+                else if(i==2){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_3))
+                }
+                else if(i==3){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_4))
+                }
+                else if(i==4){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_5))
+                }
+                else if(i==5){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_6))
+                }
+                else if(i==6){
+                    colorsItems2.add(getResources().getColor(R.color.Reinbow_7))
+                }
+            }
         }
 
         // 각 블록 색깔 지정 (꼭 리스트 값안에 담아야 함)
-        val colorsItems = ArrayList<Int>()
-        colorsItems.add(getResources().getColor(R.color.Reinbow_1))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_2))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_3))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_4))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_5))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_6))
-        colorsItems.add(getResources().getColor(R.color.Reinbow_7))
+
+
 
         //PieDataSet 변수를 만들어 위에서 셋팅한 색상과 그래프에 들어갈 퍼센테이지 수치 색상과 사이즈를 지정할 수 있다.
         //생성할 때, entries는 위에서 데이터셋한 리스트의 이름이고 오른쪽은 value값인데 빈값으로 셋팅해도 된다
@@ -205,11 +249,11 @@ class MypageActivity : AppCompatActivity() {
         }
         val chart2_pieDataSet = PieDataSet(chart2_entries, "")
         chart2_pieDataSet.apply {
-            colors = colorsItems
+            colors = colorsItems2
             valueTextColor = Color.BLACK
             valueTextSize = 16f
         }
-
+        chart1_pieDataSet.entryCount
         //PieData변수에 위에서 만든 PieDataSet을 넘겨주고, xml에서 만든 chart에 데이터를 셋팅해주는 부분
         val pieData = PieData(chart1_pieDataSet)
         chart.apply {
@@ -222,6 +266,7 @@ class MypageActivity : AppCompatActivity() {
             setCenterTextSize(20f)
             setEntryLabelColor(Color.BLACK)
             setEntryLabelTextSize(10f)
+
             //그래프 최초 시작시 12시방향으로 휘리릭.. 이뿌다....^^
             animateY(1400, Easing.EaseInOutQuad)
             animate()
