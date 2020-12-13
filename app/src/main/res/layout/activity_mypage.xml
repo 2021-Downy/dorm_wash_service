@@ -95,23 +95,6 @@
         tools:layout_editor_absoluteX="162dp"
         tools:layout_editor_absoluteY="411dp" />
 
-    <EditText
-        android:id="@+id/editTextId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="364dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginRight="300dp"
-        android:ems="10"
-        android:text="morned270"/>
-
     <TextView
         android:id="@+id/mypage_phone"
         android:layout_width="210dp"
@@ -164,23 +147,6 @@
         android:text="기숙사 : "
         tools:layout_editor_absoluteX="157dp"
         tools:layout_editor_absoluteY="499dp" />
-
-    <EditText
-        android:id="@+id/editTextDorm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="442dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginRight="300dp"
-        android:ems="10"
-        android:text="개성재"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -366,5 +332,38 @@
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:text="돌아가기" />
+
+    <TextView
+        android:id="@+id/editTextId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="377dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10"
+        android:text="morned270"/>
+
+    <Spinner
+        android:id="@+id/editTextDorm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="442dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="300dp"
+        android:ems="10" />
 
 </RelativeLayout>

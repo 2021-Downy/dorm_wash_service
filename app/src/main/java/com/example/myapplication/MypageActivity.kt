@@ -5,12 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.SeekBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.ui.login.mJsonString
 import com.github.mikephil.charting.animation.Easing
@@ -37,6 +33,7 @@ var Day_of_all = arrayOf(0, 0, 0, 0, 0, 0, 0)    //전체 사용자 요일별 �
 var Day_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0)
 var Time_of_all = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)    //전체 사용자 24시간별 사용횟수(0시..23시)
 var Time_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+var dormNum = ""
 
 class MypageActivity : AppCompatActivity() {
 
@@ -49,8 +46,8 @@ class MypageActivity : AppCompatActivity() {
 
         //예지
         var remainTime = intent.getStringExtra("remainTime")
-        var dorm_num = intent.getStringExtra("dorm_num")
-        var usingnum = intent.getStringExtra("using_num").toString()
+        val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
+        editTextDorm.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
 
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
@@ -92,37 +89,61 @@ class MypageActivity : AppCompatActivity() {
 
         //세탁기 전체 사용 시간은 50분이라고 할 때
         //예지
-        var lefttime = remainTime!!.toInt()   //(0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
+//        var lefttime = (0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
+        var lefttime = remainTime!!.toInt()
         var progress = 100-lefttime*2
         waveLoadongView.setProgressValue(progress);
 
-        if (usingnum != "0") {
+        if(lefttime > 0){
             if (progress < 90) {
                 waveLoadongView.setBottomTitle("");
                 waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
                 waveLoadongView.setTopTitle("");
                 waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
             }
-            else if(progress<0){
-                waveLoadongView.setProgressValue(70);
-                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
-                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
-            }
-            else {
+            else{
                 waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
                 waveLoadongView.setTopTitle("");
                 waveLoadongView.setBottomTitle("");
                 waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
             }
         }
+        else if(-10 < lefttime && lefttime < 0){
+            waveLoadongView.setProgressValue(70);
+            waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+        }
         else{
             waveLoadongView.setProgressValue(70);
             waveLoadongView.setCenterTitle(String.format("사용대기중"));
             waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
         }
+//        if (usingnum != "0") {
+//            if (progress < 90) {
+//                waveLoadongView.setBottomTitle("");
+//                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                waveLoadongView.setTopTitle("");
+//                waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+//            }
+//            else if(progress<0){
+//                waveLoadongView.setProgressValue(70);
+//                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+//                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+//            }
+//            else {
+//                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                waveLoadongView.setTopTitle("");
+//                waveLoadongView.setBottomTitle("");
+//                waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+//            }
+//        }
+//        else{
+//            waveLoadongView.setProgressValue(70);
+//            waveLoadongView.setCenterTitle(String.format("사용대기중"));
+//            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
+//        }
 
         var user_num = intent.getStringExtra("user_num")
-        var using_num = intent.getStringExtra("using_num")
 
         val task2 = readData()
         task2.execute("http://$IP_ADDRESS/getjson_readUser.php", user_num)
@@ -162,7 +183,7 @@ class MypageActivity : AppCompatActivity() {
             //사용현황 띄우기
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
             UsageStatusActivity.putExtra("user_num", user_num)
-            UsageStatusActivity.putExtra("dorm_num", dorm_num)
+            UsageStatusActivity.putExtra("dorm_num", dormNum)
             startActivity(UsageStatusActivity)
             finish()
         }
@@ -259,7 +280,7 @@ class MypageActivity : AppCompatActivity() {
         btn_event.setOnClickListener{
             val name : String = editTextPersonName.text.toString()
             val phone: String = editTextPhone.text.toString()
-            val dorm: String = editTextDorm.text.toString()
+            val dorm: String = editTextDorm.selectedItem.toString()
             val email: String = editTextId.text.toString()
 
 
@@ -306,13 +327,17 @@ class MypageActivity : AppCompatActivity() {
                         val ID: String = item.getString(TAG_ID)
                         val name: String = item.getString(TAG_NAME)
                         val phone_num: String = item.getString(TAG_PHONE)
-                        val dorm_num: String = item.getString(TAG_DORM)
+                        dormNum = item.getString(TAG_DORM)
 
                         /* 회원 정보 출력 */
                         editTextPersonName.setText(name);
                         editTextId.setText(ID);
                         editTextPhone.setText(phone_num);
-                        editTextDorm.setText(dorm_num);
+                        if (dormNum=="개성재")editTextDorm.setSelection(0)
+                        else if (dormNum=="계영원")editTextDorm.setSelection(1)
+                        else if (dormNum=="양성재")editTextDorm.setSelection(2)
+                        else if (dormNum=="양진재")editTextDorm.setSelection(3)
+                        else if (dormNum=="양현재")editTextDorm.setSelection(4)
                     }
                 } catch (e: JSONException) {
                     Toast.makeText(
