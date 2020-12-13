@@ -48,6 +48,7 @@ class MypageActivity : AppCompatActivity() {
         var remainTime = intent.getStringExtra("remainTime")
         val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
         editTextDorm.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
+        val usingstate = intent.getStringExtra("using_num").toString()
 
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
@@ -93,55 +94,35 @@ class MypageActivity : AppCompatActivity() {
         var lefttime = remainTime!!.toInt()
         var progress = 100-lefttime*2
         waveLoadongView.setProgressValue(progress);
+        print("----------현재 남은시간은 "+lefttime+"입니다-----------")
 
-        if(lefttime > 0){
-            if (progress < 90) {
-                waveLoadongView.setBottomTitle("");
-                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                waveLoadongView.setTopTitle("");
-                waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+        if (usingstate != "0") {
+            if(lefttime>0) {
+                if (progress < 90) {
+                    waveLoadongView.setBottomTitle("");
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                    waveLoadongView.setTopTitle("");
+                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+                }
+                else {
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                    waveLoadongView.setTopTitle("");
+                    waveLoadongView.setBottomTitle("");
+                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+                }
             }
             else{
-                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                waveLoadongView.setTopTitle("");
-                waveLoadongView.setBottomTitle("");
-                waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+                waveLoadongView.setProgressValue(70);
+                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
             }
-        }
-        else if(-10 < lefttime && lefttime < 0){
-            waveLoadongView.setProgressValue(70);
-            waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
-            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+
         }
         else{
             waveLoadongView.setProgressValue(70);
             waveLoadongView.setCenterTitle(String.format("사용대기중"));
             waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
         }
-//        if (usingnum != "0") {
-//            if (progress < 90) {
-//                waveLoadongView.setBottomTitle("");
-//                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-//                waveLoadongView.setTopTitle("");
-//                waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
-//            }
-//            else if(progress<0){
-//                waveLoadongView.setProgressValue(70);
-//                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
-//                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
-//            }
-//            else {
-//                waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-//                waveLoadongView.setTopTitle("");
-//                waveLoadongView.setBottomTitle("");
-//                waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
-//            }
-//        }
-//        else{
-//            waveLoadongView.setProgressValue(70);
-//            waveLoadongView.setCenterTitle(String.format("사용대기중"));
-//            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
-//        }
 
         var user_num = intent.getStringExtra("user_num")
 
