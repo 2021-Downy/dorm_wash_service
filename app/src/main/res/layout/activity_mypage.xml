@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="299dp"
         android:layout_marginLeft="299dp"
-        android:layout_marginTop="438dp"
+        android:layout_marginTop="440dp"
         android:layout_marginEnd="45dp"
         android:layout_marginRight="45dp"
         android:text="수정"
@@ -128,7 +128,7 @@
         android:layout_marginEnd="125dp"
         android:layout_marginRight="300dp"
         android:ems="10"
-        android:text="010 -4921-7846"/>
+        android:text="01049217846"/>
 
     <TextView
         android:id="@+id/mypage_dorm"
@@ -342,12 +342,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="110dp"
+        android:layout_marginStart="113dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="377dp"
+        android:layout_marginTop="372dp"
         android:layout_marginEnd="125dp"
         android:layout_marginRight="300dp"
-        android:ems="10"
+        android:textSize="20dp"
         android:text="morned270"/>
 
     <Spinner
