@@ -135,6 +135,16 @@ class MypageActivity : AppCompatActivity() {
         val task4 = readData3() //개인 요일별 그래프
         task4.execute("http://$IP_ADDRESS/getjson_readUser3.php", user_num)
 
+        //data report 삽입
+        var preferred_day_num = Day_of_my.indexOf(Day_of_my.max())
+        var Week = arrayOf("월요일","화요일","수요일","목요일","금요일","토요일","일요일")
+        var preferred_day = Week[preferred_day_num]
+        var preferred_time_num = Time_of_my.indexOf(Time_of_my.max())
+        var Time = arrayOf("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23")
+        var preferred_time = Time[preferred_time_num]
+        val task5 = insertData() //개인 요일별 그래프
+        task5.execute("http://$IP_ADDRESS/insertReport.php", preferred_day,preferred_time,user_num)
+
 
         /*스위치 버튼 이벤트*/
         switchreport.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener
@@ -168,6 +178,68 @@ class MypageActivity : AppCompatActivity() {
             startActivity(UsageStatusActivity)
             finish()
         }
+    }
+
+    /*Insert Data in mysql*/
+    private class insertData : AsyncTask<String, Void, String>() {
+
+
+        override fun doInBackground(vararg params: String?): String {
+
+            val serverURL: String? = params[0]
+            val preferred_day: String? = params[1]
+            val preferred_time: String? = params[2]
+            val user_num: String? = params[3]
+
+            val postParameters: String = "preferred_day=$preferred_day&preferred_time=$preferred_time&user_num=$user_num"
+
+            try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            } catch (e: Exception) {
+                return "Error" + e.message
+            }
+
+        }
+
     }
 
     fun makedaycharts(data_all: Array<Int>, data_my: Array<Int>) :Unit{
@@ -696,6 +768,7 @@ class MypageActivity : AppCompatActivity() {
                         //시간 꺾은 선 그래프
                         Time_of_my = arrayOf(t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23)  // 나의 시간별 사용횟수(0시..23시)
                         maketimecharts(Time_of_all, Time_of_my)
+
                     }
 
                 } catch (e: JSONException) {
