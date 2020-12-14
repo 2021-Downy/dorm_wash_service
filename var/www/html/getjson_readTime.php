@@ -8,12 +8,10 @@
     $android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
     
     if( (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit'])) || $android ){
-	$ID    = $_POST['ID'];
-	$pw    = $_POST['pw'];
+	$using_num    = $_POST['using_num'];
 	
-    $stmt = $con->prepare('select * from USER where ID=:ID and pw=:pw');
-    $stmt->bindParam(':ID', $ID);
-    $stmt->bindParam(':pw', $pw);
+    $stmt = $con->prepare('SELECT start_time FROM USES WHERE WM_num=:using_num ORDER BY uses_num DESC LIMIT 1');
+    $stmt->bindParam(':using_num', $using_num);
     $stmt->execute();
     }
 
@@ -26,14 +24,7 @@
             extract($row);
     
             array_push($data, 
-                array(
-                'user_num'=>$user_num,
-                'ID'=>$ID,
-                'pw'=>$pw,
-                'name'=>$name,
-                'dorm_num'=>$dorm_num,
-                'phone_num'=>$phone_num,
-                'using_num'=>$using_num
+                array('start_time'=>$start_time
             ));
         }
 

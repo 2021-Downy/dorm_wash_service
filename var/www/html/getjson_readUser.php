@@ -8,12 +8,10 @@
     $android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
     
     if( (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit'])) || $android ){
-	$ID    = $_POST['ID'];
-	$pw    = $_POST['pw'];
+	$user_num    = $_POST['user_num'];
 	
-    $stmt = $con->prepare('select * from USER where ID=:ID and pw=:pw');
-    $stmt->bindParam(':ID', $ID);
-    $stmt->bindParam(':pw', $pw);
+    $stmt = $con->prepare('select ID, name, phone_num, dorm_num from USER where user_num=:user_num');
+    $stmt->bindParam(':user_num', $user_num);
     $stmt->execute();
     }
 
@@ -27,13 +25,10 @@
     
             array_push($data, 
                 array(
-                'user_num'=>$user_num,
                 'ID'=>$ID,
-                'pw'=>$pw,
                 'name'=>$name,
-                'dorm_num'=>$dorm_num,
                 'phone_num'=>$phone_num,
-                'using_num'=>$using_num
+                'dorm_num'=>$dorm_num
             ));
         }
 
