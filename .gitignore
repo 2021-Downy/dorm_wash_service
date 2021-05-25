@@ -1,0 +1,14 @@
+# : comments
+
+# local.properties
+*.properties
+
+#ignore all files in the .gradle directory
+.gradle/
+
+#ignore all files of release(APK)
+app/release/
+
+# ignore all files in the build/ directory
+build/
+
