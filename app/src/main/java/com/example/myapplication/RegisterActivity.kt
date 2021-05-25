@@ -35,8 +35,9 @@ class RegisterActivity : AppCompatActivity() {
             val task = InsertData()
             val onlyDate: LocalDate = LocalDate.now()
             val start_time = LocalDateTime.now()
+            val left_time = "50";
             val date = onlyDate.toString()
-            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, date, start_time.toString(), start_time.plusMinutes(50).toString())
+            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, date, start_time.toString(), start_time.plusMinutes(50).toString(), left_time)
 //            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, "2020-12-12","2020-12-12T20:30:00.00", "2020-12-12T21:20:00.00")
 
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
@@ -68,8 +69,9 @@ class RegisterActivity : AppCompatActivity() {
             val date: String? = params[3]
             val start_time: String? = params[4]
             val end_time: String? = params[5]
+            val left_time: String? = params[6]
 
-            val postParameters: String = "user_num=$user_num&WM_num=$WM_num&date=$date&start_time=$start_time&end_time=$end_time"
+            val postParameters: String = "user_num=$user_num&WM_num=$WM_num&date=$date&start_time=$start_time&end_time=$end_time&left_time=$left_time"
 
             try {
                 val url = URL(serverURL)
