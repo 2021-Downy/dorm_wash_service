@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "889441261914",
+    "project_id": "dormdry",
+    "storage_bucket": "dormdry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889441261914:android:8a18084c3118d3a5f13b63",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889441261914-pal4c2a6k89adv1d1d7heo7r7rlahlq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsuv1OyWLaY5K1NFgVum9cXRI_CGplrmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889441261914-pal4c2a6k89adv1d1d7heo7r7rlahlq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

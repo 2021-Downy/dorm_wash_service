@@ -75,7 +75,7 @@
         android:layout_marginEnd="125dp"
         android:layout_marginRight="300dp"
         android:ems="10"
-        android:text="최은정"/>
+        android:text="최은정" />
 
     <TextView
         android:id="@+id/mypage_id"
@@ -255,18 +255,18 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="101dp"
         android:layout_marginLeft="101dp"
-        android:layout_marginTop="13dp"
 
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="108dp"
+
         android:layout_marginRight="108dp"
 
         android:clickable="false"
-
         app:wlv_borderColor="@color/indigo"
         app:wlv_borderWidth="5dp"
         app:wlv_round_rectangle="true"
-        app:wlv_shapeType="circle"
 
+        app:wlv_shapeType="circle"
         app:wlv_titleCenterColor="@color/white"
         app:wlv_titleCenterSize="30sp"
         app:wlv_titleCenterStrokeColor="@color/deepindigo"
@@ -332,6 +332,18 @@
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:text="돌아가기" />
+
+    <Button
+        android:id="@+id/button_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="125dp"
+        android:text="예약" />
 
     <TextView
         android:id="@+id/editTextId"

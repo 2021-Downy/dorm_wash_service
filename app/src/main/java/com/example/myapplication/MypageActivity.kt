@@ -34,6 +34,7 @@ var Day_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0)
 var Time_of_all = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)    //전체 사용자 24시간별 사용횟수(0시..23시)
 var Time_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 var dormNum = ""
+var get_using_num = ""
 
 class MypageActivity : AppCompatActivity() {
 
@@ -48,7 +49,6 @@ class MypageActivity : AppCompatActivity() {
         var remainTime = intent.getStringExtra("remainTime")
         val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
         editTextDorm.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
-        val usingstate = intent.getStringExtra("using_num").toString()
 
         //test를 위한 seekbar
         var seekbar: SeekBar = findViewById(R.id.seekbar)  //java 에서는 SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar)
@@ -96,7 +96,7 @@ class MypageActivity : AppCompatActivity() {
         waveLoadongView.setProgressValue(progress);
         print("----------현재 남은시간은 "+lefttime+"입니다-----------")
 
-        if (usingstate != "0") {
+        if (get_using_num != "0") {
             if(lefttime>0) {
                 if (progress < 90) {
                     waveLoadongView.setBottomTitle("");
@@ -136,10 +136,10 @@ class MypageActivity : AppCompatActivity() {
         task4.execute("http://$IP_ADDRESS/getjson_readUser3.php", user_num)
 
         //data report 삽입
-        var preferred_day_num = Day_of_my.indexOf(Day_of_my.max())
+        var preferred_day_num = Day_of_my.indexOf(Day_of_my.maxOrNull())
         var Week = arrayOf("월요일","화요일","수요일","목요일","금요일","토요일","일요일")
         var preferred_day = Week[preferred_day_num]
-        var preferred_time_num = Time_of_my.indexOf(Time_of_my.max())
+        var preferred_time_num = Time_of_my.indexOf(Time_of_my.maxOrNull())
         var Time = arrayOf("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23")
         var preferred_time = Time[preferred_time_num]
         val task5 = insertData() //개인 요일별 그래프
@@ -176,6 +176,16 @@ class MypageActivity : AppCompatActivity() {
             UsageStatusActivity.putExtra("user_num", user_num)
             UsageStatusActivity.putExtra("dorm_num", dormNum)
             startActivity(UsageStatusActivity)
+            finish()
+        }
+
+        button_book.isEnabled = false
+        button_book.setOnClickListener {
+            //예약페이지 띄우기
+            val MybookActivity = Intent(this, MybookActivity::class.java)
+            MybookActivity.putExtra("user_num", user_num)
+            MybookActivity.putExtra("dorm_num", dormNum)
+            startActivity(MybookActivity)
             finish()
         }
     }
@@ -413,6 +423,7 @@ class MypageActivity : AppCompatActivity() {
                 val TAG_NAME = "name"
                 val TAG_PHONE = "phone_num"
                 val TAG_DORM = "dorm_num"
+                val TAG_USINGNUM = "using_num"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
@@ -421,6 +432,8 @@ class MypageActivity : AppCompatActivity() {
                         val ID: String = item.getString(TAG_ID)
                         val name: String = item.getString(TAG_NAME)
                         val phone_num: String = item.getString(TAG_PHONE)
+                        val using_num: String = item.getString(TAG_USINGNUM)
+                        get_using_num = using_num
                         dormNum = item.getString(TAG_DORM)
 
                         /* 회원 정보 출력 */
@@ -432,6 +445,11 @@ class MypageActivity : AppCompatActivity() {
                         else if (dormNum=="양성재")editTextDorm.setSelection(2)
                         else if (dormNum=="양진재")editTextDorm.setSelection(3)
                         else if (dormNum=="양현재")editTextDorm.setSelection(4)
+
+                        /* 예약상태일 경우 '예약' 버튼 활성화 */
+                        if (using_num.toInt() < 0){
+                            button_book.isEnabled = true
+                        }
                     }
                 } catch (e: JSONException) {
                     Toast.makeText(

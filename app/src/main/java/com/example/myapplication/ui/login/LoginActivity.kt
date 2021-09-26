@@ -37,6 +37,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 var mJsonString =""
 var errorMessage = "ID 또는 패스워드가 잘못됐습니다."
+var get_using_num = ""
 
 class LoginActivity : AppCompatActivity() {
 
@@ -152,6 +153,7 @@ class LoginActivity : AppCompatActivity() {
                 val TAG_NUM = "user_num"
                 val TAG_NAME = "name"
                 val TAG_DORM = "dorm_num"
+                val TAG_USINGNUM = "using_num"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
@@ -160,6 +162,8 @@ class LoginActivity : AppCompatActivity() {
                         val user_num: String = item.getString(TAG_NUM)
                         val name: String = item.getString(TAG_NAME)
                         val dorm_num: String = item.getString(TAG_DORM)
+                        val using_num: String = item.getString(TAG_USINGNUM)
+                        get_using_num = using_num
                         updateUiWithUser(user_num, name, dorm_num)
                     }
                 } catch (e: JSONException) {
@@ -242,6 +246,7 @@ class LoginActivity : AppCompatActivity() {
         val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
         UsageStatusActivity.putExtra("user_num", user_num)
         UsageStatusActivity.putExtra("dorm_num", dorm_num)
+        UsageStatusActivity.putExtra("using_num", get_using_num)
         startActivity(UsageStatusActivity)
         finish()
     }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -36,12 +37,15 @@ var errorMessage_wm = "세탁기 현황 정보를 불러올 수 없습니다."
 //var arrWMlist = mutableListOf<Array<Int>>()    //사용자 정보에 해당하는 기숙사의 세탁기들 리스트
 var runningWM = mutableListOf<Int>()
 var emptyWM = mutableListOf<Int>()
+var reservedWM = mutableListOf<Int>()
 var buttonList_R = mutableListOf<Button>()
 var usingList_R = mutableListOf<Button>()
+var reservedList_R = mutableListOf<Button>()
 var using_num=""
 var user_num=""
 var dorm_num=""
 var remainTime="0"
+//var WMList = mutableListOf<Button>()
 
 class UsageStatusActivity : AppCompatActivity() {
 
@@ -64,15 +68,13 @@ class UsageStatusActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             val MypageActivity = Intent(this, MypageActivity::class.java)
             MypageActivity.putExtra("user_num",user_num)
-            MypageActivity.putExtra("dorm_num",dorm_num)
-            MypageActivity.putExtra("using_num", using_num)
             MypageActivity.putExtra("remainTime",remainTime)
             startActivity(MypageActivity)
             finish()
         }
     }
 
-    fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>){
+    fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>, reservedList: MutableList<Button>){
         var WM_num = ""
         for (i in buttonList){
             //빈 세탁기 이미지 삽입
@@ -88,13 +90,33 @@ class UsageStatusActivity : AppCompatActivity() {
                 finish()
             }
         }
-
         for (i in usingList){
             var s = i.text.toString()
             //사용중인 세탁기 이미지 삽입
             i.setBackgroundResource(R.drawable.img_wm_otheruse)
+
+            i.setOnClickListener{
+                WM_num = i.text.toString()
+                val BookActivity = Intent(this, BookActivity::class.java)
+                BookActivity.putExtra("user_num",user_num)
+                BookActivity.putExtra("dorm_num",dorm_num)
+                BookActivity.putExtra("WM_num",WM_num)
+                startActivity(BookActivity)
+                finish()
+            }
+        }
+        for (i in reservedList){
+            var s = i.text.toString()
+
+            //예약된 세탁기 이미지 삽입
+            i.setBackgroundResource(R.drawable.img_wm_otheruse)
+
+            i.setOnClickListener{
+                Toast.makeText(applicationContext, "예약된 세탁기 입니다.", Toast.LENGTH_LONG).show()
+            }
         }
         if(using_num!="" && using_num.toInt()>0){
+
             for (i in usingList){
 
                 var WM_num = i.text.toString()
@@ -115,180 +137,110 @@ class UsageStatusActivity : AppCompatActivity() {
                 }
             }
         }
+        else if(using_num!="" && using_num.toInt()<0){
+
+            for (i in usingList){
+
+                var WM_num = i.text.toString().toInt()
+                if(WM_num == -using_num.toInt()){
+                    i.setBackgroundResource(R.drawable.img_wm_reserved)
+
+                    i.setOnClickListener{
+                        Toast.makeText(applicationContext, "내가 예약한 세탁기 입니다.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
+
+    fun setWM_state(WM: Button, WM_num: Int, running: Int){
+        var usingList = mutableListOf<Button>()
+        var buttonList = mutableListOf<Button>()
+        var reservedList = mutableListOf<Button>()
+
+        WM.visibility = View.VISIBLE
+        WM.text = WM_num.toString()
+        if(running==0){
+            emptyWM.add(1)
+            buttonList.add(WM)
+        }
+        else if (running==1) {
+            runningWM.add(1)
+            usingList.add(WM)
+        }
+        else if (running==2 || running==3) {
+            reservedWM.add(1)
+            usingList.add(WM)
+            reservedList.add(WM)
+        }
+
+        buttonList_R = buttonList
+        usingList_R = usingList
+        reservedList_R = reservedList
+        setButton(buttonList,usingList,reservedList)
     }
 
     fun setWM(arrWMlist: MutableList<Array<Int>>){
 
-        var usingList = mutableListOf<Button>()
-        var buttonList = mutableListOf<Button>()
+        var WMList = mutableListOf<Button>()
+        WMList.add(WM1)
+        WMList.add(WM2)
+        WMList.add(WM3)
+        WMList.add(WM4)
+        WMList.add(WM5)
+        WMList.add(WM6)
+        WMList.add(WM7)
+        WMList.add(WM8)
+        WMList.add(WM9)
+        WMList.add(WM10)
+        WMList.add(WM11)
+        WMList.add(WM12)
+        for (i in WMList){
+            i.visibility = View.GONE
+        }
 
-        WM1.visibility = View.GONE
-        WM2.visibility = View.GONE
-        WM3.visibility = View.GONE
-        WM4.visibility = View.GONE
-        WM5.visibility = View.GONE
-        WM6.visibility = View.GONE
-        WM7.visibility = View.GONE
-        WM8.visibility = View.GONE
-        WM9.visibility = View.GONE
-        WM10.visibility = View.GONE
-        WM11.visibility = View.GONE
-        WM12.visibility = View.GONE
 
         for(i in arrWMlist){
-            var WM_num = i[0]
             var row = i[1]
             var column = i[2]
-            var running = i[3]
+
             if(row==1 && column==1){
-                WM1.visibility = View.VISIBLE
-                WM1.text = WM_num.toString()
-                if(running==0){
-                    emptyWM.add(1)
-                    buttonList.add(WM1)
-                }
-                else if (running==1) {
-                    runningWM.add(1)
-                    usingList.add(WM1)
-                }
+                setWM_state(WM1, i[0], i[3])
             }
             if(row==1 && column==2){
-                WM2.visibility = View.VISIBLE
-                WM2.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(2)
-                    buttonList.add(WM2)
-                }
-                else if (running==1) {
-                    runningWM.add(2)
-                    usingList.add(WM2)
-                }
+                setWM_state(WM2, i[0], i[3])
             }
             if(row==1 && column==3){
-                WM3.visibility = View.VISIBLE
-                WM3.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(3)
-                    buttonList.add(WM3)
-                }
-                else if (running==1) {
-                    runningWM.add(3)
-                    usingList.add(WM3)
-                }
+                setWM_state(WM3, i[0], i[3])
             }
             if(row==2 && column==1){
-                WM4.visibility = View.VISIBLE
-                WM4.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(4)
-                    buttonList.add(WM4)
-                }
-                else if (running==1) {
-                    runningWM.add(4)
-                    usingList.add(WM4)
-                }
+                setWM_state(WM4, i[0], i[3])
             }
             if(row==2 && column==2){
-                WM5.visibility = View.VISIBLE
-                WM5.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(5)
-                    buttonList.add(WM5)
-                }
-                else if (running==1) {
-                    runningWM.add(5)
-                    usingList.add(WM5)
-                }
+                setWM_state(WM5, i[0], i[3])
             }
             if(row==2 && column==3){
-                WM6.visibility = View.VISIBLE
-                WM6.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(6)
-                    buttonList.add(WM6)
-                }
-                else if (running==1) {
-                    runningWM.add(6)
-                    usingList.add(WM6)
-                }
+                setWM_state(WM6, i[0], i[3])
             }
             if(row==3 && column==1){
-                WM7.visibility = View.VISIBLE
-                WM7.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(7)
-                    buttonList.add(WM7)
-                }
-                else if (running==1) {
-                    runningWM.add(7)
-                    usingList.add(WM7)
-                }
+                setWM_state(WM7, i[0], i[3])
             }
             if(row==3 && column==2){
-                WM8.visibility = View.VISIBLE
-                WM8.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(8)
-                    buttonList.add(WM8)
-                }
-                else if (running==1) {
-                    runningWM.add(8)
-                    usingList.add(WM8)
-                }
+                setWM_state(WM8, i[0], i[3])
             }
             if(row==3 && column==3){
-                WM9.visibility = View.VISIBLE
-                WM9.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(9)
-                    buttonList.add(WM9)
-                }
-                else if (running==1) {
-                    runningWM.add(9)
-                    usingList.add(WM9)
-                }
+                setWM_state(WM9, i[0], i[3])
             }
             if(row==4 && column==1){
-                WM10.visibility = View.VISIBLE
-                WM10.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(10)
-                    buttonList.add(WM10)
-                }
-                else if (running==1) {
-                    runningWM.add(10)
-                    usingList.add(WM10)
-                }
+                setWM_state(WM10, i[0], i[3])
             }
             if(row==4 && column==2){
-                WM11.visibility = View.VISIBLE
-                WM11.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(11)
-                    buttonList.add(WM11)
-                }
-                else if (running==1) {
-                    runningWM.add(11)
-                    usingList.add(WM11)
-                }
+                setWM_state(WM11, i[0], i[3])
             }
             if(row==4 && column==3){
-                WM12.visibility = View.VISIBLE
-                WM12.text = WM_num.toString()
-                if(running==0) {
-                    emptyWM.add(12)
-                    buttonList.add(WM12)
-                }
-                else if (running==1) {
-                    runningWM.add(12)
-                    usingList.add(WM12)
-                }
+                setWM_state(WM12, i[0], i[3])
             }
-
         }
-        buttonList_R = buttonList
-        usingList_R = usingList
-        setButton(buttonList,usingList)
     }
 
     private inner class readData : AsyncTask<String?, Void?, String?>() {
