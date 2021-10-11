@@ -5,9 +5,17 @@ import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_mybook.*
+import kotlinx.android.synthetic.main.activity_mypage.*
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -17,9 +25,12 @@ import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+const val TOPIC = "/topics/myTopic"
+
 class RegisterActivity : AppCompatActivity() {
 
     private val IP_ADDRESS = "morned270.dothome.co.kr"
+    val TAG = "RegisterActivity"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         var dorm_num = intent.getStringExtra("dorm_num").toString()
         var WM_num = intent.getStringExtra("WM_num").toString()
         textView_register.setText(WM_num+"번 세탁기를 사용하시겠습니까?")
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
         button_yes.setOnClickListener{
             val task = InsertData()
@@ -55,8 +68,35 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(UsageStatusActivity)
             finish()
         }
+        button_report.setOnClickListener{
+            //val title = "세탁물 미수거 알림".toString()
+            //val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다".toString()
+            val title = editTextMyToken.text.toString()
+            val message = editTextMyToken.text.toString()
+            if(title.isNotEmpty() &&message.isNotEmpty()){
+                Report_PushNotification(
+                    Report_NotificationData(title,message),
+                    TOPIC
+                ).also {
+                    sendNotification(it)
+                }
+            }
+        }
     }
 
+    private fun sendNotification(notification:Report_PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+                val response = Report_RetrofitInstance.api.postNotification(notification)
+            if(response.isSuccessful) {
+                println("좀 되면 안되겠니... plz... \n하아...하핰...한번만\n a sending you sos... \ni cant handle this anymore.. plz \nsave me from here")
+                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+            } else {
+                Log.e(TAG, response.errorBody().toString())
+            }
+        }catch(e: Exception) {
+            Log.e(TAG, e.toString())
+        }
+    }
     /*Insert Data in mysql*/
     private class InsertData : AsyncTask<String, Void, String>() {
 
@@ -121,4 +161,5 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     }
+
 }

@@ -7,6 +7,50 @@
     tools:context=".RegisterActivity"
     android:background="@drawable/img_bg_rt">
 
+    <EditText
+        android:id="@+id/editTextMyToken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="134dp"
+        android:layout_marginLeft="134dp"
+        android:layout_marginTop="446dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginRight="101dp"
+        android:ems="10"
+        android:text="내 기기 토큰 번호" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="599dp"
+        android:text="사용하려는 세탁기에\n세탁물이 남아있어요!"
+        android:textColor="@color/deepindigo"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/button_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="642dp"
+        android:layout_marginEnd="293dp"
+        android:layout_marginRight="293dp"
+        android:text="신고하기"
+        app:backgroundTint="@color/deepindigo" />
+
     <TextView
         android:id="@+id/textView_register"
         android:layout_width="wrap_content"
