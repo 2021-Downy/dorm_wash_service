@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
@@ -8,10 +9,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_mybook.*
-import kotlinx.android.synthetic.main.activity_mypage.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,8 @@ import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-const val TOPIC = "/topics/myTopic"
+
+const val TOPIC = "/topics/myTopic2"
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -36,6 +37,13 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        Report_FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            Report_FirebaseService.token = it.token
+            etToken.setText(it.token)
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
         var user_num = intent.getStringExtra("user_num").toString()
         var dorm_num = intent.getStringExtra("dorm_num").toString()
@@ -69,14 +77,17 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
         button_report.setOnClickListener{
-            //val title = "세탁물 미수거 알림".toString()
-            //val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다".toString()
-            val title = editTextMyToken.text.toString()
-            val message = editTextMyToken.text.toString()
-            if(title.isNotEmpty() &&message.isNotEmpty()){
+            val title = "hello"
+            val message = "testing : send by token"
+            //val title = etToken.text.toString()
+            //val message = etToken.text.toString()
+            // 일단 내 토큰으로 해둠
+            val recipientToken = etToken.text.toString()
+
+            if(title.isNotEmpty() && message.isNotEmpty() && recipientToken.isNotEmpty()) {
                 Report_PushNotification(
-                    Report_NotificationData(title,message),
-                    TOPIC
+                    Report_NotificationData(title, message),
+                    recipientToken
                 ).also {
                     sendNotification(it)
                 }
@@ -88,7 +99,6 @@ class RegisterActivity : AppCompatActivity() {
         try {
                 val response = Report_RetrofitInstance.api.postNotification(notification)
             if(response.isSuccessful) {
-                println("좀 되면 안되겠니... plz... \n하아...하핰...한번만\n a sending you sos... \ni cant handle this anymore.. plz \nsave me from here")
                 Log.d(TAG, "Response: ${Gson().toJson(response)}")
             } else {
                 Log.e(TAG, response.errorBody().toString())
@@ -97,6 +107,7 @@ class RegisterActivity : AppCompatActivity() {
             Log.e(TAG, e.toString())
         }
     }
+
     /*Insert Data in mysql*/
     private class InsertData : AsyncTask<String, Void, String>() {
 
