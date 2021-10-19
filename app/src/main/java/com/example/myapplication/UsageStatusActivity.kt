@@ -72,6 +72,11 @@ class UsageStatusActivity : AppCompatActivity() {
             startActivity(MypageActivity)
             finish()
         }
+        findViewById<FloatingActionButton>(R.id.scannerButton).setOnClickListener {
+            val QRscanActivity = Intent(this, QRscanActivity::class.java)
+            startActivity(QRscanActivity)
+            finish()
+        }
     }
 
     fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>, reservedList: MutableList<Button>){
