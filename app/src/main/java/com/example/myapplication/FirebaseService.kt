@@ -12,24 +12,26 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
 
 private const val CHANNEL_ID = "my_channel"
 
-class Report_FirebaseService : FirebaseMessagingService(){
+class FirebaseService : FirebaseMessagingService() {
 
     companion object {
         var sharedPref: SharedPreferences? = null
 
         var token: String?
-            get() {
-                return sharedPref?.getString("token", "")
-            }
-            set(value) {
-                sharedPref?.edit()?.putString("token", value)?.apply()
-            }
+        get() {
+            return sharedPref?.getString("token", "")
+        }
+        set(value) {
+            sharedPref?.edit()?.putString("token", value)?.apply()
+        }
     }
 
     override fun onNewToken(newToken: String) {
@@ -40,7 +42,7 @@ class Report_FirebaseService : FirebaseMessagingService(){
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, RegisterActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
@@ -51,12 +53,12 @@ class Report_FirebaseService : FirebaseMessagingService(){
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(message.data["title"])
-                .setContentText(message.data["message"])
-                .setSmallIcon(R.drawable.logo_inor)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .build()
+            .setContentTitle(message.data["title"])
+            .setContentText(message.data["message"])
+            .setSmallIcon(R.drawable.logo_inor)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
 
         notificationManager.notify(notificationID, notification)
     }
@@ -73,3 +75,14 @@ class Report_FirebaseService : FirebaseMessagingService(){
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
