@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/802a14189fc8146b8b2035e088ebb606/jetified-library-0.3.5/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/802a14189fc8146b8b2035e088ebb606/jetified-library-0.3.5/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/802a14189fc8146b8b2035e088ebb606/jetified-library-0.3.5/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4ee780e279c94b330ee2aa7aaec5b3b5/jetified-library-0.3.5/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4ee780e279c94b330ee2aa7aaec5b3b5/jetified-library-0.3.5/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4ee780e279c94b330ee2aa7aaec5b3b5/jetified-library-0.3.5/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.itangqi.waveloadingview/library/0.3.5/54a283dd89525783227c9daba03af61d63e946ae/library-0.3.5-javadoc.jar!/" />
