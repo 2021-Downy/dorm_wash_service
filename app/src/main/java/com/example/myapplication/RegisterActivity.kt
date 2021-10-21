@@ -86,18 +86,22 @@ class RegisterActivity : AppCompatActivity() {
         button_report.setOnClickListener {
             val title = "세탁물 미수거 알림"
             val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다"
+            // 변경해야할 부분 : 아래 부분을 DB에서 불러오는 방식으로 변경해야 함. 현재는 본인의 토큰을 불러오는 방식으로 이루어져있음
             val recipientToken = etToken.text.toString()
             if(recipientToken.isNotEmpty()) {
                 PushNotification(
-                    NotificationData(title, message),
-                    recipientToken
+                    NotificationData(title, message),   //메세지와 제목을 json형태로 만듬
+                    recipientToken  //이 토큰으로 보냄
                 ).also {
                     sendNotification(it)
                 }
             }
+            //시간이 되면 변경 : 한번 신고하기 누르면 버튼 비활성화 되게(그치만 db를 이용해야되서 조금 번거로울 수도 있음)
+            button_report.setEnabled(false)
         }
     }
 
+    //받은 fcm요청을 처리
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val response = RetrofitInstance.api.postNotification(notification)
