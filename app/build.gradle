@@ -82,6 +82,17 @@ dependencies {
 //    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
 //    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
+    //Zxing Library (for QR code scanner)
+    implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.zxing:core:3.3.0'
+
+    //multidex 지원 라이브러리 추가
+    compile 'com.android.support:multidex:1.0.3'
+
+    ////런타임 퍼미션 (앱을 실행하면서 해당 권한이 필요할 때 선택적으로 승인할 수 있게 함)
+    //implementation 'pub.devrel:easypermissions:3.0.0'
+
 }
 
 
