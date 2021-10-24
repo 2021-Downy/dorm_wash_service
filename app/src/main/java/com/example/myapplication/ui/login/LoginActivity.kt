@@ -3,6 +3,7 @@ package com.example.myapplication.ui.login
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.lifecycle.Observer
@@ -23,8 +24,10 @@ import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.SignupActivity
 import com.example.myapplication.UsageStatusActivity
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -47,6 +50,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
+
+        //내 토큰 불러오기
+        val newToken = FirebaseInstanceId.getInstance().getToken()
+        Log.d("새 토큰", "나의 토큰 :"+ newToken)
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
@@ -124,6 +131,8 @@ class LoginActivity : AppCompatActivity() {
 
                 val ID : String = username.text.toString()
                 val pw : String = password.text.toString()
+                //토큰
+                val token : String = newToken.toString()
 
                 val task = readData()
                 task.execute("http://morned270.dothome.co.kr/getjson.php",ID,pw)

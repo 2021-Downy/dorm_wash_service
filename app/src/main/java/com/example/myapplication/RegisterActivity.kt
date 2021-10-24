@@ -88,6 +88,7 @@ class RegisterActivity : AppCompatActivity() {
             val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다"
             // 변경해야할 부분 : 아래 부분을 DB에서 불러오는 방식으로 변경해야 함. 현재는 본인의 토큰을 불러오는 방식으로 이루어져있음
             val recipientToken = etToken.text.toString()
+            Log.d(TAG, "내 토큰 :"+recipientToken)
             if(recipientToken.isNotEmpty()) {
                 PushNotification(
                     NotificationData(title, message),   //메세지와 제목을 json형태로 만듬
