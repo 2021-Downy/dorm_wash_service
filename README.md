@@ -12,7 +12,6 @@ stars](https://img.shields.io/github/stars/2020-Downy/dorm_wash_service?style=so
 forks](https://img.shields.io/github/forks/2020-Downy/dorm_wash_service?style=social)
 ![GitHub
 issues](https://img.shields.io/github/issues/2020-Downy/dorm_wash_service?style=social)
-
 팀 다우니의 기숙사 세탁기 사용현황 조회서비스 "Dormdry"를 소개합니다.
 Introducing Downey Team's Dormitory washing machine usage check service, "Dormdry"
 
@@ -32,11 +31,11 @@ Through this project, we want to experience the development of open source softw
 
 
  지원 OS : Android Pie(9 (API Level 28)) 이상의 환경에서 사용가능 합니다.
-
+<p align="center"><img src="https://user-images.githubusercontent.com/55476465/138251369-ce3de0a3-b11a-4e5e-983a-887a6c1bf77d.jpg" width="70%" height="70%"></p>
 
 ### TODO
 - 예약 기능 구현
-- 제보 기능 구현
+- 제보 기능 보완
 - 텍스트 인식률 증가 / 이미지 전처리
 - 프로젝트 문서 업데이트
 

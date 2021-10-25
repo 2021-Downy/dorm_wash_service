@@ -4,15 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.etToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,6 @@ import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-
 const val TOPIC = "/topics/myTopic2"
 
 class RegisterActivity : AppCompatActivity() {
@@ -37,10 +37,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
-        Report_FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-            Report_FirebaseService.token = it.token
+            FirebaseService.token = it.token
             etToken.setText(it.token)
         }
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
@@ -48,9 +47,7 @@ class RegisterActivity : AppCompatActivity() {
         var user_num = intent.getStringExtra("user_num").toString()
         var dorm_num = intent.getStringExtra("dorm_num").toString()
         var WM_num = intent.getStringExtra("WM_num").toString()
-        textView_register.setText(WM_num+"번 세탁기를 사용하시겠습니까?")
-
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+        textView_register.setText(WM_num + "번 세탁기를 사용하시겠습니까?")
 
         button_yes.setOnClickListener{
             val task = InsertData()
@@ -58,12 +55,22 @@ class RegisterActivity : AppCompatActivity() {
             val start_time = LocalDateTime.now()
             val left_time = "50";
             val date = onlyDate.toString()
-            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, date, start_time.toString(), start_time.plusMinutes(50).toString(), left_time)
+            task.execute(
+                "http://$IP_ADDRESS/insertUses.php",
+                user_num,
+                WM_num,
+                date,
+                start_time.toString(),
+                start_time.plusMinutes(
+                    50
+                ).toString(),
+                left_time
+            )
 //            task.execute("http://$IP_ADDRESS/insertUses.php", user_num, WM_num, "2020-12-12","2020-12-12T20:30:00.00", "2020-12-12T21:20:00.00")
 
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
-            UsageStatusActivity.putExtra("user_num",user_num)
-            UsageStatusActivity.putExtra("dorm_num",dorm_num)
+            UsageStatusActivity.putExtra("user_num", user_num)
+            UsageStatusActivity.putExtra("dorm_num", dorm_num)
             startActivity(UsageStatusActivity)
 
             Toast.makeText(applicationContext, "등록되었습니다.", Toast.LENGTH_LONG).show()
@@ -71,39 +78,40 @@ class RegisterActivity : AppCompatActivity() {
         }
         button_no.setOnClickListener{
             val UsageStatusActivity = Intent(this, UsageStatusActivity::class.java)
-            UsageStatusActivity.putExtra("user_num",user_num)
-            UsageStatusActivity.putExtra("dorm_num",dorm_num)
+            UsageStatusActivity.putExtra("user_num", user_num)
+            UsageStatusActivity.putExtra("dorm_num", dorm_num)
             startActivity(UsageStatusActivity)
             finish()
         }
-        button_report.setOnClickListener{
-            val title = "hello"
-            val message = "testing : send by token"
-            //val title = etToken.text.toString()
-            //val message = etToken.text.toString()
-            // 일단 내 토큰으로 해둠
+        button_report.setOnClickListener {
+            val title = "세탁물 미수거 알림"
+            val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다"
+            // 변경해야할 부분 : 아래 부분을 DB에서 불러오는 방식으로 변경해야 함. 현재는 본인의 토큰을 불러오는 방식으로 이루어져있음
             val recipientToken = etToken.text.toString()
-
-            if(title.isNotEmpty() && message.isNotEmpty() && recipientToken.isNotEmpty()) {
-                Report_PushNotification(
-                    Report_NotificationData(title, message),
-                    recipientToken
+            Log.d(TAG, "내 토큰 :"+recipientToken)
+            if(recipientToken.isNotEmpty()) {
+                PushNotification(
+                    NotificationData(title, message),   //메세지와 제목을 json형태로 만듬
+                    recipientToken  //이 토큰으로 보냄
                 ).also {
                     sendNotification(it)
                 }
             }
+            //시간이 되면 변경 : 한번 신고하기 누르면 버튼 비활성화 되게(그치만 db를 이용해야되서 조금 번거로울 수도 있음)
+            button_report.setEnabled(false)
         }
     }
 
-    private fun sendNotification(notification:Report_PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+    //받은 fcm요청을 처리
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
-                val response = Report_RetrofitInstance.api.postNotification(notification)
+            val response = RetrofitInstance.api.postNotification(notification)
             if(response.isSuccessful) {
                 Log.d(TAG, "Response: ${Gson().toJson(response)}")
             } else {
                 Log.e(TAG, response.errorBody().toString())
             }
-        }catch(e: Exception) {
+        } catch(e: Exception) {
             Log.e(TAG, e.toString())
         }
     }

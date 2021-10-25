@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-data class Report_NotificationData (
+data class NotificationData(
     val title: String,
     val message: String
 )
