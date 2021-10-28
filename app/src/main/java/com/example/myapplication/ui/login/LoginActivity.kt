@@ -135,7 +135,7 @@ class LoginActivity : AppCompatActivity() {
                 val token : String = newToken.toString()
 
                 val task = readData()
-                task.execute("http://morned270.dothome.co.kr/getjson.php",ID,pw)
+                task.execute("http://morned270.dothome.co.kr/getjson.php", ID, pw, token)
 
 //                loginViewModel.login(username.text.toString(), password.text.toString())
             }
@@ -191,7 +191,8 @@ class LoginActivity : AppCompatActivity() {
             val serverURL = params[0]
             val ID = params[1]
             val pw = params[2]
-            val postParameters: String = "ID=$ID&pw=$pw"
+            val token = params[3]
+            val postParameters: String = "ID=$ID&pw=$pw&user_token=$token"
 
             return try {
                 val url = URL(serverURL)

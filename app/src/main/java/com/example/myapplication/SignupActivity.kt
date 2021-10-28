@@ -13,6 +13,8 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import com.google.firebase.iid.FirebaseInstanceId
+import android.util.Log
 
 var errorMessage = "해당 ID는 사용하실 수 없습니다."
 var duplicated=0
@@ -26,6 +28,9 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+        //내 토큰 불러오기
+        val newToken = FirebaseInstanceId.getInstance().getToken()
+        Log.d("새 토큰", "나의 토큰 :"+ newToken)
 
         val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
         spinner.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
@@ -36,10 +41,10 @@ class SignupActivity : AppCompatActivity() {
             val password : String = editTextTextPassword.text.toString()
             val phone: String = editTextPhone.text.toString()
             val dorm: String = spinner.selectedItem.toString()
-
+            val token: String = newToken.toString()
 
             val task = InsertData()
-            task.execute("http://$IP_ADDRESS/insertTest.php", name, email, password, phone, dorm)
+            task.execute("http://$IP_ADDRESS/insertTest.php", name, email, password, phone, dorm, token)
 
             Toast.makeText(applicationContext, "가입되었습니다.", Toast.LENGTH_LONG).show()
             super.onBackPressed();
@@ -59,8 +64,9 @@ class SignupActivity : AppCompatActivity() {
             val password: String? = params[3]
             val phone: String? = params[4]
             val dorm: String? = params[5]
+            val token: String? = params[6]
 
-            val postParameters: String = "name=$name&ID=$email&pw=$password&phone_num=$phone&dorm_num=$dorm"
+            val postParameters: String = "name=$name&ID=$email&pw=$password&phone_num=$phone&dorm_num=$dorm&user_token=$token"
 
             try {
                 val url = URL(serverURL)

@@ -25,7 +25,12 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
+import android.annotation.SuppressLint
+import org.json.JSONObject
+import org.json.JSONArray
+import org.json.JSONException
 
+var mJsonString =""
 const val TOPIC = "/topics/myTopic2"
 
 class RegisterActivity : AppCompatActivity() {
@@ -84,19 +89,9 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
         button_report.setOnClickListener {
-            val title = "세탁물 미수거 알림"
-            val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다"
-            // 변경해야할 부분 : 아래 부분을 DB에서 불러오는 방식으로 변경해야 함. 현재는 본인의 토큰을 불러오는 방식으로 이루어져있음
-            val recipientToken = etToken.text.toString()
-            Log.d(TAG, "내 토큰 :"+recipientToken)
-            if(recipientToken.isNotEmpty()) {
-                PushNotification(
-                    NotificationData(title, message),   //메세지와 제목을 json형태로 만듬
-                    recipientToken  //이 토큰으로 보냄
-                ).also {
-                    sendNotification(it)
-                }
-            }
+            val task = readData()
+            task.execute("http://$IP_ADDRESS/getjson_uncollect.php", WM_num)
+
             //시간이 되면 변경 : 한번 신고하기 누르면 버튼 비활성화 되게(그치만 db를 이용해야되서 조금 번거로울 수도 있음)
             button_report.setEnabled(false)
         }
@@ -113,6 +108,112 @@ class RegisterActivity : AppCompatActivity() {
             }
         } catch(e: Exception) {
             Log.e(TAG, e.toString())
+        }
+    }
+
+    fun reportUncollect(user_token: String) {
+        val title = "세탁물 미수거 알림"
+        val message = "사용하신 세탁기에 세탁물이 남아있습니다. 빠른 수거 부탁드립니다"
+
+        val recipientToken = user_token
+        Log.d(TAG, "미수거 사용자 토큰 :"+recipientToken)
+        if(recipientToken.isNotEmpty()) {
+            PushNotification(
+                NotificationData(title, message),   //메세지와 제목을 json형태로 만듬
+                recipientToken  //이 토큰으로 보냄
+            ).also {
+                sendNotification(it)
+            }
+        }
+    }
+
+    /*Read Data in mysql*/
+    private inner class readData : AsyncTask<String?, Void?, String?>() {
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result == null) {
+//                loading.visibility = View.INVISIBLE
+                Toast.makeText(
+                    applicationContext,
+                    errorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } else {
+                mJsonString = result
+                val TAG_JSON = "webnautes"
+                val TAG_TOKEN = "user_token"
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                    for (i in 0 until jsonArray.length()) {
+                        val item: JSONObject = jsonArray.getJSONObject(i)
+                        val user_token: String = item.getString(TAG_TOKEN)
+                        reportUncollect(user_token)
+                    }
+                } catch (e: JSONException) {
+                    //Log.d(LoginActivity.TAG, "showResult : ", e)
+//                    loading.visibility = View.INVISIBLE
+                    Toast.makeText(
+                        applicationContext,
+                        errorMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val serverURL = params[0]
+            val WM_num = params[1]
+            val postParameters: String = "WM_num=$WM_num"
+
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.connect()
+
+                val outputStream: OutputStream = httpURLConnection.outputStream
+                if (postParameters != null) {
+                    outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                }
+                outputStream.flush()
+                outputStream.close()
+
+                val responseStatusCode: Int = httpURLConnection.responseCode
+
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                while (bufferedReader.readLine().also({ line = it }) != null) {
+                    sb.append(line)
+                }
+
+                bufferedReader.close();
+
+                return sb.toString();
+
+            }catch (e: Exception) {
+                //errorString = e.toString()
+                null
+            }
         }
     }
 
