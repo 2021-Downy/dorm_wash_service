@@ -62,11 +62,15 @@ class MybookActivity : AppCompatActivity() {
         // 사용완료 상태면(2) 버튼 활성화 (0: 사용대기, 1: 사용중, 2: 사용완+예약대기, 3: 사용중+예약완)
         button_register.setOnClickListener{
             //insert use
-            val RegisterActivity = Intent(this, RegisterActivity::class.java)
-            RegisterActivity.putExtra("user_num",user_num)
-            RegisterActivity.putExtra("dorm_num",dorm_num)
-            RegisterActivity.putExtra("WM_num",read_WM_num)
-            startActivity(RegisterActivity)
+//            val RegisterActivity = Intent(this, RegisterActivity::class.java)
+//            RegisterActivity.putExtra("user_num",user_num)
+//            RegisterActivity.putExtra("dorm_num",dorm_num)
+//            RegisterActivity.putExtra("WM_num",read_WM_num)
+//            startActivity(RegisterActivity)
+//            finish()
+
+            val QRscanActivity = Intent(this, QRscanActivity::class.java)
+            startActivity(QRscanActivity)
             finish()
         }
 

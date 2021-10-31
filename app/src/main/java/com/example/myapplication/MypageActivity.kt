@@ -34,7 +34,7 @@ var Day_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0)
 var Time_of_all = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)    //전체 사용자 24시간별 사용횟수(0시..23시)
 var Time_of_my = arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 var dormNum = ""
-var get_using_num = ""
+var get_using_num = "0"
 
 class MypageActivity : AppCompatActivity() {
 

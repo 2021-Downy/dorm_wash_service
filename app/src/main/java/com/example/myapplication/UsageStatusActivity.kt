@@ -376,6 +376,7 @@ class UsageStatusActivity : AppCompatActivity() {
                 mJsonString = result
                 val TAG_JSON = "webnautes"
                 val TAG_left_time = "left_time"
+                val TAG_start_time = "start_time"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
@@ -383,9 +384,10 @@ class UsageStatusActivity : AppCompatActivity() {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         var left_time = item.getString(TAG_left_time)
                         // 남은시간계산
-                        //val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
-                        //remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
-                        remainTime = left_time.toString();
+                        var start_time = item.getString(TAG_start_time)
+                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
+//                        remainTime = left_time.toString();
                     }
 
                 } catch (e: JSONException) {
