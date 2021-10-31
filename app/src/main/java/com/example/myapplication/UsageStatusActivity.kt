@@ -75,7 +75,7 @@ class UsageStatusActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.scannerButton).setOnClickListener {
             val QRscanActivity = Intent(this, QRscanActivity::class.java)
             startActivity(QRscanActivity)
-            finish()
+//            finish()  // 스캔 액티비티에서 '뒤로가기' 했을때 돌아오기 위함
         }
     }
 
@@ -85,15 +85,16 @@ class UsageStatusActivity : AppCompatActivity() {
             //빈 세탁기 이미지 삽입
             i.setBackgroundResource(R.drawable.img_wm_empty)
 
-            i.setOnClickListener{
-                WM_num = i.text.toString()
-                val RegisterActivity = Intent(this, RegisterActivity::class.java)
-                RegisterActivity.putExtra("user_num",user_num)
-                RegisterActivity.putExtra("dorm_num",dorm_num)
-                RegisterActivity.putExtra("WM_num",WM_num)
-                startActivity(RegisterActivity)
-                finish()
-            }
+            // 사용가능한 세탁기는 'QR 스캔' 기능을 통해서만 사용 등록 가능
+//            i.setOnClickListener{
+//                WM_num = i.text.toString()
+//                val RegisterActivity = Intent(this, RegisterActivity::class.java)
+//                RegisterActivity.putExtra("user_num",user_num)
+//                RegisterActivity.putExtra("dorm_num",dorm_num)
+//                RegisterActivity.putExtra("WM_num",WM_num)
+//                startActivity(RegisterActivity)
+//                finish()
+//            }
         }
         for (i in usingList){
             var s = i.text.toString()
