@@ -96,7 +96,7 @@ class MypageActivity : AppCompatActivity() {
         waveLoadongView.setProgressValue(progress);
         print("----------현재 남은시간은 "+lefttime+"입니다-----------")
 
-        if (get_using_num != "0") {
+        if (get_using_num > "0") {
             if(lefttime>0) {
                 if (progress < 90) {
                     waveLoadongView.setBottomTitle("");
