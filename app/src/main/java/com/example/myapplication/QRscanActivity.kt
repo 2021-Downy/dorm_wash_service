@@ -25,8 +25,9 @@ open class QRscanActivity : AppCompatActivity() {
 
     //에뮬레이터로 실행시 ip주소
     private val IP_ADDRESS = "morned270.dothome.co.kr"
-    private var runningState = -1;
     private var WMnumber = "";
+    private var runningState = -1;
+    private var reservedWMnum = "";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,7 @@ open class QRscanActivity : AppCompatActivity() {
 
                     // 해당 세탁기의 사용가능 여부를 확인하고, 이에 따라 올바른 동작을 수행하는 메소드 호출
                     val task = readData()
-                    task.execute("http://morned270.dothome.co.kr/getjson_readAvailable.php", WM_num)
+                    task.execute("http://morned270.dothome.co.kr/getjson_readAvailable.php", WM_num, user_num)
                 }
                 else {                      // QR 코드의 기숙사 정보가 사용자 정보와 일치하지 않는 경우
 
@@ -87,11 +88,11 @@ open class QRscanActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                     ).show()
 
-                    // 사용현황 액티비티를 실행
-                    val UsageStatusActivity = Intent(this, com.example.myapplication.UsageStatusActivity::class.java)
-                    UsageStatusActivity.putExtra("user_num",user_num)
-                    UsageStatusActivity.putExtra("dorm_num",dorm_num)
-                    startActivity(UsageStatusActivity)
+//                    // 사용현황 액티비티를 실행
+//                    val UsageStatusActivity = Intent(this, com.example.myapplication.UsageStatusActivity::class.java)
+//                    UsageStatusActivity.putExtra("user_num",user_num)
+//                    UsageStatusActivity.putExtra("dorm_num",dorm_num)
+//                    startActivity(UsageStatusActivity)
                     finish()
                 }
 
@@ -119,6 +120,7 @@ open class QRscanActivity : AppCompatActivity() {
                 val TAG_JSON = "webnautes"
                 val TAG_WMNUM = "WM_num"
                 val TAG_RUNNING = "running"
+                val TAG_USINGNUM = "using_num"
 
                 try {
                     val jsonObject = JSONObject(result)
@@ -127,13 +129,16 @@ open class QRscanActivity : AppCompatActivity() {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         val WM_num: String = item.getString(TAG_WMNUM)
                         val running: Int = item.getInt(TAG_RUNNING)
+                        val using_num: Int = item.getInt(TAG_USINGNUM)
 
                         WMnumber = WM_num;
-                        /* 읽어들인 세탁기의 상태를 runningState 변수에 대입 */
-                        runningState = running;
+                        runningState = running; // 읽어들인 세탁기의 상태를 runningState 변수에 대입
+                        reservedWMnum = using_num.toString();
 
-                        // 세탁기의 상태가 '사용 대기'일 경우에만
-                        if (runningState == 0) {
+                        // 세탁기의 상태가 '사용 대기'일 경우 또는
+                        // 세탁기의 상태가 '사용완료 & 예약중'이고 예약한 세탁기의 번호가 일치하는 경우
+                        if ((runningState == 0) ||
+                                ((runningState == 2) && (reservedWMnum.replace("-", "") == WM_num))) {
 
                             // 데이터를 전달하면서 사용 등록 액티비티를 실행
                             val RegisterActivity = Intent(this@QRscanActivity, RegisterActivity::class.java)
@@ -143,7 +148,6 @@ open class QRscanActivity : AppCompatActivity() {
                             startActivity(RegisterActivity)
                             finish()
                         }
-
                         // 그 외의 상태일 경우
                         else {
                             // 안내 메시지를 띄운 다음
@@ -153,20 +157,29 @@ open class QRscanActivity : AppCompatActivity() {
                                     Toast.LENGTH_LONG
                             ).show()
 
-                            // 사용현황 액티비티를 실행
-                            val UsageStatusActivity = Intent(this@QRscanActivity, com.example.myapplication.UsageStatusActivity::class.java)
-                            UsageStatusActivity.putExtra("user_num",user_num)
-                            UsageStatusActivity.putExtra("dorm_num",dorm_num)
-                            startActivity(UsageStatusActivity)
+//                            // 사용현황 액티비티를 실행
+//                            val UsageStatusActivity = Intent(this@QRscanActivity, com.example.myapplication.UsageStatusActivity::class.java)
+//                            UsageStatusActivity.putExtra("user_num",user_num)
+//                            UsageStatusActivity.putExtra("dorm_num",dorm_num)
+//                            startActivity(UsageStatusActivity)
                             finish()
                         }
                     }
                 } catch (e: JSONException) {
+
+                    // 안내 메시지를 띄운 다음
                     Toast.makeText(
                             applicationContext,
-                            errorMessage_mypage,
+                            "세탁기 사용 가능 여부를 확인할 수 없습니다.",
                             Toast.LENGTH_LONG
                     ).show()
+
+//                    // 사용현황 액티비티를 실행
+//                    val UsageStatusActivity = Intent(this@QRscanActivity, com.example.myapplication.UsageStatusActivity::class.java)
+//                    UsageStatusActivity.putExtra("user_num",user_num)
+//                    UsageStatusActivity.putExtra("dorm_num",dorm_num)
+//                    startActivity(UsageStatusActivity)
+                    finish()
                 }
             }
         }
@@ -174,7 +187,8 @@ open class QRscanActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val serverURL = params[0]
             val WM_num = params[1]
-            val postParameters: String = "WM_num=$WM_num"
+            val user_num = params[2]
+            val postParameters: String = "WM_num=$WM_num&user_num=$user_num"
 
             return try {
                 val url = URL(serverURL)
