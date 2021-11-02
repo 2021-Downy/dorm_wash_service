@@ -77,6 +77,13 @@ class UsageStatusActivity : AppCompatActivity() {
             startActivity(QRscanActivity)
 //            finish()  // 스캔 액티비티에서 '뒤로가기' 했을때 돌아오기 위함
         }
+        findViewById<FloatingActionButton>(R.id.refreshButton).setOnClickListener {
+            val task2 = readData2()
+            task2.execute("http://morned270.dothome.co.kr/getjson_readUN.php",user_num)
+            val task = readData()
+            task.execute("http://morned270.dothome.co.kr/getjson_readWM.php",dorm_num)
+        }
+
     }
 
     fun setButton(buttonList: MutableList<Button>, usingList: MutableList<Button>, reservedList: MutableList<Button>){

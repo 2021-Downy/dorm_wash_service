@@ -45,5 +45,17 @@
         app:backgroundTint="@color/blue"
         app:srcCompat="@drawable/img_qrscan" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="top|end"
+        android:padding="0sp"
+        android:scaleType="fitCenter"
+        android:text="Refresh page"
+        app:backgroundTint="@color/zxing_transparent"
+        app:srcCompat="@drawable/img_refresh" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
