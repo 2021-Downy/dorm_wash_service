@@ -29,7 +29,9 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class MybookActivity : AppCompatActivity() {
@@ -169,7 +171,7 @@ class MybookActivity : AppCompatActivity() {
                 mJsonString = result
                 val TAG_JSON = "webnautes"
                 val TAG_WMNUM = "WM_num"
-                val TAG_RMTIME = "left_time"
+                val TAG_STARTTIME = "start_time"
                 val TAG_RUNNING = "running"
                 try {
                     val jsonObject = JSONObject(result)
@@ -177,10 +179,18 @@ class MybookActivity : AppCompatActivity() {
                     for (i in 0 until jsonArray.length()) {
                         val item: JSONObject = jsonArray.getJSONObject(i)
                         val WM_num: String = item.getString(TAG_WMNUM)
-                        val left_time: String = item.getString(TAG_RMTIME)
+                        val start_time: String = item.getString(TAG_STARTTIME)
                         val running: String = item.getString(TAG_RUNNING)
 
-                        textView.setText(left_time + "분 후 " + WM_num + "번 세탁기를 사용할 수 있습니다.")
+                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
+                        if(remainTime.toInt() <= 0){
+                            textView.setText("잠시후 " + WM_num + "번 세탁기를 사용할 수 있습니다.")
+                        }
+                        else{
+                            textView.setText(remainTime + "분 후 " + WM_num + "번 세탁기를 사용할 수 있습니다.")
+                        }
+
                         Log.d("running!!!!!!!", running)
                         if (running.toInt() == 2){
                             textView.setText(WM_num + "번 세탁기를 사용할 수 있습니다.")

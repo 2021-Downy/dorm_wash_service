@@ -27,6 +27,9 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 var  errorMessage_mypage= "데이터를 불러올 수 없습니다."
 var Day_of_all = arrayOf(0, 0, 0, 0, 0, 0, 0)    //전체 사용자 요일별 사용횟수(월,화,수,목,금,토,일)
@@ -46,7 +49,7 @@ class MypageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_mypage)
 
         //예지
-        var remainTime = intent.getStringExtra("remainTime")
+//        var remainTime = intent.getStringExtra("remainTime")
         val spinnerList = arrayOf<String>("개성재","계영원","양성재","양진재","양현재")
         editTextDorm.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerList)
 
@@ -91,38 +94,40 @@ class MypageActivity : AppCompatActivity() {
         //세탁기 전체 사용 시간은 50분이라고 할 때
         //예지
 //        var lefttime = (0..50).random()   // 수정필요 : 남은시간이 lefttime분(0~50분 사이) 일단 랜덤으로 설정해둠
-        var lefttime = remainTime!!.toInt()
-        var progress = 100-lefttime*2
-        waveLoadongView.setProgressValue(progress);
-        print("----------현재 남은시간은 "+lefttime+"입니다-----------")
 
-        if (get_using_num > "0") {
-            if(lefttime>0) {
-                if (progress < 90) {
-                    waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                    waveLoadongView.setTopTitle("");
-                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
-                }
-                else {
-                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
-                    waveLoadongView.setTopTitle("");
-                    waveLoadongView.setBottomTitle("");
-                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
-                }
-            }
-            else{
-                waveLoadongView.setProgressValue(70);
-                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
-                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
-            }
-
-        }
-        else{
-            waveLoadongView.setProgressValue(70);
-            waveLoadongView.setCenterTitle(String.format("사용대기중"));
-            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
-        }
+        // 남은시간 출력 원래위치 (makeremaintime 함수로 이동함)
+//        var lefttime = remainTime!!.toInt()
+//        var progress = 100-lefttime*2
+//        waveLoadongView.setProgressValue(progress);
+//        print("----------현재 남은시간은 "+lefttime+"입니다-----------")
+//
+//        if (get_using_num > "0") {
+//            if(lefttime>0) {
+//                if (progress < 90) {
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+//                }
+//                else {
+//                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+//                    waveLoadongView.setTopTitle("");
+//                    waveLoadongView.setBottomTitle("");
+//                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+//                }
+//            }
+//            else{
+//                waveLoadongView.setProgressValue(70);
+//                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+//                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+//            }
+//
+//        }
+//        else{
+//            waveLoadongView.setProgressValue(70);
+//            waveLoadongView.setCenterTitle(String.format("사용대기중"));
+//            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
+//        }
 
         var user_num = intent.getStringExtra("user_num")
 
@@ -424,6 +429,7 @@ class MypageActivity : AppCompatActivity() {
                 val TAG_PHONE = "phone_num"
                 val TAG_DORM = "dorm_num"
                 val TAG_USINGNUM = "using_num"
+                val TAG_STARTTIME = "start_time"
                 try {
                     val jsonObject = JSONObject(result)
                     val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
@@ -433,6 +439,7 @@ class MypageActivity : AppCompatActivity() {
                         val name: String = item.getString(TAG_NAME)
                         val phone_num: String = item.getString(TAG_PHONE)
                         val using_num: String = item.getString(TAG_USINGNUM)
+                        val start_time: String = item.getString(TAG_STARTTIME)
                         get_using_num = using_num
                         dormNum = item.getString(TAG_DORM)
 
@@ -450,6 +457,10 @@ class MypageActivity : AppCompatActivity() {
                         if (using_num.toInt() < 0){
                             button_book.isEnabled = true
                         }
+                        /* 남은시간 계산 */
+                        val startTime = LocalDateTime.parse(start_time, DateTimeFormatter.ISO_DATE_TIME)
+                        remainTime = (50-Duration.between(startTime,LocalDateTime.now()).toMinutes()).toString()
+                        makeremaintime(remainTime)
                     }
                 } catch (e: JSONException) {
                     Toast.makeText(
@@ -915,6 +926,40 @@ class MypageActivity : AppCompatActivity() {
 
     }
 
+    fun makeremaintime(remainTime : String){
+        var lefttime = remainTime!!.toInt()
+        var progress = 100-lefttime*2
+        waveLoadongView.setProgressValue(progress);
+        print("----------현재 남은시간은 "+lefttime+"입니다-----------")
+
+        if (get_using_num > "0") {
+            if(lefttime>0) {
+                if (progress < 90) {
+                    waveLoadongView.setBottomTitle("");
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                    waveLoadongView.setTopTitle("");
+                    waveLoadongView.setWaveColor(Color.parseColor("#8ECAE6"));
+                }
+                else {
+                    waveLoadongView.setCenterTitle(String.format("%d분", lefttime));
+                    waveLoadongView.setTopTitle("");
+                    waveLoadongView.setBottomTitle("");
+                    waveLoadongView.setWaveColor(Color.parseColor("#FFB703"));
+                }
+            }
+            else{
+                waveLoadongView.setProgressValue(70);
+                waveLoadongView.setCenterTitle(String.format("세탁 끝!"));
+                waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_1));
+            }
+
+        }
+        else{
+            waveLoadongView.setProgressValue(70);
+            waveLoadongView.setCenterTitle(String.format("사용대기중"));
+            waveLoadongView.setWaveColor(getResources().getColor(R.color.Reinbow_4));
+        }
+    }
     fun maketimecharts(val1List : Array<Int>, val2List : Array<Int> ) :Unit{
         //Part1
         var timeList = Array(24,{i ->i})    //시간(0~23시)
