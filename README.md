@@ -12,6 +12,8 @@ stars](https://img.shields.io/github/stars/2020-Downy/dorm_wash_service?style=so
 forks](https://img.shields.io/github/forks/2020-Downy/dorm_wash_service?style=social)
 ![GitHub
 issues](https://img.shields.io/github/issues/2020-Downy/dorm_wash_service?style=social)
+개발기간 : 2020. 9. 1 ~ 2021. 11. 4
+
 팀 다우니의 기숙사 세탁기 사용현황 조회서비스 "Dormdry"를 소개합니다.
 Introducing Downey Team's Dormitory washing machine usage check service, "Dormdry"
 
@@ -29,15 +31,8 @@ It can also have a positive influence on promoting the civic awareness of studen
 우리는 이 프로젝트를 통해 "데이터베이스시스템", "소프트웨어공학", "객체지향설계", "컴퓨터네트워크","펌웨어프로그래밍","영상처리" 등 학과 수업에서 배웠던 내용들을 활용하여 졸업작품을 진행하며 개인의 프로그래밍 능력과 팀 협업 능력을 신장시키고, 프로토타이핑 모델의 오픈소스 소프트웨어 개발을 경험하고자 합니다.  
 Through this project, we want to experience the development of open source software for prototyping models by utilizing what we have learned in department classes such as "Database Systems," "Software Engineering," "Object-Oriented Design," "Computer Network," and "Firmware Programming."
 
-
  지원 OS : Android Pie(9 (API Level 28)) 이상의 환경에서 사용가능 합니다.
 <p align="center"><img src="https://user-images.githubusercontent.com/55476465/138251369-ce3de0a3-b11a-4e5e-983a-887a6c1bf77d.jpg" width="70%" height="70%"></p>
-
-### TODO
-- 예약 기능 구현
-- 제보 기능 보완
-- 텍스트 인식률 증가 / 이미지 전처리
-- 프로젝트 문서 업데이트
 
 <hr>
 
